@@ -1,5 +1,4 @@
 .gradle
-.idea
 /build/
 /game/logs/
 /game/saves/
