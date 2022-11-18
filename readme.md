@@ -1,4 +1,5 @@
 ### Installation
+Download "Aurora.json" from our [website](https://zerozipp.github.io/) or directly from the [releases](https://github.com/ZeroZipp/Aurora/releases)<br>
 Create a folder in `~/.minecraft/versions/Aurora` and add the "Aurora.json" file
 
 ### GUI
