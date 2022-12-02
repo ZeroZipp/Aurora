@@ -5,7 +5,7 @@ import com.zerozipp.client.utils.interfaces.Aurora;
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
 public enum Events {
-    OUTLINES,
-    INVISIBLE,
-    CAMERA
+    CAMERA,
+    BOBBLING,
+    BRIGHT
 }

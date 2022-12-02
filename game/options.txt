@@ -19,7 +19,7 @@ resourcePacks:["Faithful-1.12.2.zip"]
 incompatibleResourcePacks:[]
 lastServer:blocksmc.com
 lang:en_us
-chatVisibility:0
+chatVisibility:2
 chatColors:true
 chatLinks:true
 chatLinksPrompt:true

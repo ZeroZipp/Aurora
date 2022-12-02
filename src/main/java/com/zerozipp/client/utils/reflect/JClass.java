@@ -86,4 +86,13 @@ public class JClass {
             throw new JException();
         }
     }
+
+    public static JClass getNative(String name) {
+        try {
+            return new JClass(Class.forName(name));
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new JException();
+        }
+    }
 }

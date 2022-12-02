@@ -40,4 +40,6 @@ public class Module {
     public boolean onEvent(Events event) {
         return false;
     }
+
+    public void onPacket(Packet packet) {}
 }

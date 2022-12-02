@@ -10,19 +10,12 @@ public class Methods extends HashMap<String, String> {
     public static final Methods M = new Methods();
 
     public Methods() {
-        put("entityGetPos", "d");
-        put("blockPosDown", "b");
-        put("worldGetBlockState", "o");
-        put("blockStateGetBlock", "u");
-        put("blockIsTopSolid", "k");
         put("keyUpdateState", "a");
         put("mcSetScreen", "a");
         put("keyIsDown", "e");
         put("mcStart", "a");
         put("keyPatch", "W");
         put("runTick", "t");
-        put("entityOutlines", "aW");
-        put("entityInvisible", "aX");
         put("getFov", "a");
         put("beginBuffer", "a");
         put("posBuffer", "b");
@@ -34,5 +27,15 @@ public class Methods extends HashMap<String, String> {
         put("getGlTextureId", "b");
         put("enableAlpha", "e");
         put("resetPressed", "k");
+        put("sendPacket", "a");
+        put("hurtCam", "d");
+        put("renderHand", "b");
+        put("rayTrace", "a");
+        put("getPositionEyes", "f");
+        put("isAlive", "aC");
+        put("renderOverlay", "a");
+        put("getScaledHeight", "b");
+        put("getScaledWidth", "a");
+        put("updateLightmap", "g");
     }
 }

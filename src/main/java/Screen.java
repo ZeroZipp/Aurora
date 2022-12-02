@@ -1,6 +1,7 @@
-import com.zerozipp.client.Invoker;
+import com.zerozipp.client.Client;
 import com.zerozipp.client.utils.Color;
 import com.zerozipp.client.utils.Vector2;
+import static com.zerozipp.client.utils.base.Display.*;
 import com.zerozipp.client.utils.base.Keybinding;
 import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.font.Render;
@@ -11,13 +12,14 @@ import org.lwjgl.input.Keyboard;
 
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
-public class Screen extends Display {
+public class Screen extends blk {
     private final float width, height;
     private Keybinding keybinding = null;
+    private Render font = null;
 
     public Screen() {
-        width = 70;
         height = 12;
+        width = 70;
     }
 
     @Override
@@ -28,14 +30,15 @@ public class Screen extends Display {
     @Override
     public void a(int mouseX, int mouseY, float partialTicks) {
         super.a(mouseX, mouseY, partialTicks);
-        super.pushScreen();
+        pushScreen();
+        String f = "font/medium.ttf";
+        if(font == null) font = Client.getFont(f, 16);
         drawRect(0, 0, l, m, Color.background.getColor());
-        Render font = Invoker.client.getFont("font/medium.ttf", 16);
         float offset = (float) (Category.values().length - 1) / -2;
         for(Category category : Category.values()) {
             doWindow(category, font, (width + 3) * offset);
             offset += 1;
-        } super.popScreen();
+        } popScreen();
     }
 
     public void doWindow(Category category, Render font, float offset) {

@@ -11,13 +11,10 @@ public class Classes extends HashMap<String, String> {
 
     public Classes() {
         put("minecraft", "bib");
-        put("settings", "bid");
         put("entity", "vg");
+        put("entityLiving", "vp");
+        put("player", "bud");
         put("world", "amu");
-        put("blockPos", "et");
-        put("position", "bhe");
-        put("blockState", "awt");
-        put("block", "aow");
         put("keyBind", "bhy");
         put("screen", "blk");
         put("texture", "cdg");
@@ -28,5 +25,14 @@ public class Classes extends HashMap<String, String> {
         put("vertex", "cea");
         put("renderer", "buq");
         put("clickGui", "Screen");
+        put("network", "gw");
+        put("cPlayer", "lk");
+        put("cPlayerRot", "lk$c");
+        put("netHandler", "brz");
+        put("packet", "ht");
+        put("vec3d", "bhe");
+        put("raytrace", "bhc");
+        put("overlay", "biq");
+        put("resolution", "bit");
     }
 }

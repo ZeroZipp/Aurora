@@ -8,7 +8,7 @@ import com.zerozipp.client.utils.types.Type;
 
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
-public class Keybindings {
+public class Keybinds {
     public static void setPressed(Object binding, boolean pressed) {
         JField field = JClass.getClass("keyBind").getDecField("isKeyPressed");
         field.set(binding, pressed);

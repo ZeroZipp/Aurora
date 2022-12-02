@@ -1,24 +1,23 @@
 package com.zerozipp.client;
 
 import com.zerozipp.client.mods.*;
+import com.zerozipp.client.utils.base.Packet;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.types.Category;
 import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.types.Events;
 import com.zerozipp.client.utils.types.Type;
+import org.lwjgl.input.Keyboard;
 import java.util.ArrayList;
 
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
 public class Modules {
     public Modules() {
-        Category.MOVEMENT.modules.add(new Sneak("Sneak", false, 46));
-        Category.MOVEMENT.modules.add(new Jump("Jump", false, 25));
-        Category.GAME.modules.add(new Place("Place", false, 34));
-        Category.GAME.modules.add(new Attack("Attack", false, 48));
-        Category.RENDER.modules.add(new Outlines("Outlines", false, 24));
-        Category.RENDER.modules.add(new Invisible("Invisible", false, 23));
-        Category.RENDER.modules.add(new Camera("Camera", false, 47));
+        Category.CAMERA.modules.add(new Camera("Camera", true, Keyboard.KEY_G));
+        Category.CAMERA.modules.add(new Bright("Bright", true, Keyboard.KEY_C));
+        Category.SCREEN.modules.add(new Name("Name", true, Keyboard.KEY_N));
+        Category.SCREEN.modules.add(new Keypad("Keypad", true, Keyboard.KEY_M));
     }
 
     public void onUpdate() {
@@ -56,6 +55,13 @@ public class Modules {
             ArrayList<Module> modules = category.modules;
             for(Module mod : modules) if(isEvent(mod, event)) return true;
         } return false;
+    }
+
+    public Packet onPacket(Packet packet) {
+        for(Category category : Category.values()) {
+            ArrayList<Module> modules = category.modules;
+            for(Module mod : modules) if(mod.isActive()) mod.onPacket(packet);
+        } return packet;
     }
 
     public boolean isEvent(Module mod, Events event) {

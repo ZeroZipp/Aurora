@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.Locale;
 import static org.lwjgl.opengl.GL11.*;
 
-@Aurora(Type.BASE)
+@Aurora(Type.FONT)
 @SuppressWarnings("unused")
 public class Render {
     private float posX;

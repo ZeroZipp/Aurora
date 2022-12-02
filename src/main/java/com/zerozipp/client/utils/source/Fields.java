@@ -13,16 +13,28 @@ public class Fields extends HashMap<String, String> {
         put("minecraft", "R");
         put("mcPlayer", "h");
         put("mcWorld", "f");
-        put("mcSettings", "t");
         put("guiScreen", "m");
         put("vertexPosition", "e");
-        put("keyAttack", "ae");
-        put("keySneak", "Y");
-        put("keyJump", "X");
-        put("keyPressTime", "j");
-        put("rightClickDelay", "as");
-        put("leftClickCounter", "ai");
         put("entityGround", "z");
         put("isKeyPressed", "i");
+        put("cPlayerPitch", "e");
+        put("cPlayerYaw", "d");
+        put("prevRenderArmPitch", "bY");
+        put("prevRenderArmYaw", "bX");
+        put("renderArmPitch", "bW");
+        put("renderArmYaw", "bV");
+        put("prevRotationPitch", "y");
+        put("prevRotationYaw", "x");
+        put("rotationPitch", "w");
+        put("rotationYaw", "v");
+        put("connection", "d");
+        put("vecX", "b");
+        put("vecY", "c");
+        put("vecZ", "d");
+        put("rBlockPos", "e");
+        put("rTypeOfHit", "a");
+        put("rSideHit", "b");
+        put("rHitVec", "c");
+        put("rEntityHit", "d");
     }
 }

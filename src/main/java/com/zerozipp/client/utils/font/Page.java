@@ -1,9 +1,9 @@
 package com.zerozipp.client.utils.font;
 
+import java.awt.*;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.reflect.JClass;
 import com.zerozipp.client.utils.types.Type;
-import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -12,7 +12,7 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import static org.lwjgl.opengl.GL11.*;
 
-@Aurora(Type.BASE)
+@Aurora(Type.FONT)
 @SuppressWarnings("unused")
 public class Page {
     private int imgSize;

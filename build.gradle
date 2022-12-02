@@ -84,6 +84,6 @@ task runClient(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     systemProperty 'java.library.path', project.natives
     args = ['--username', 'Debug', '--version', 'Aurora', '--accessToken', '0', '--tweakClass', 'com.zerozipp.client.loader.Tweaker']
-    mainClass = 'net.minecraft.launchwrapper.Launch'
+    setMain 'net.minecraft.launchwrapper.Launch'
     workingDir = 'game'
 }

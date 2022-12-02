@@ -1,14 +1,14 @@
+package com.zerozipp.client.utils.base;
+
 import com.zerozipp.client.utils.Vector2;
-import com.zerozipp.client.utils.base.Buffer;
-import com.zerozipp.client.utils.base.Tessellator;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.types.Type;
 import static org.lwjgl.opengl.GL11.*;
 
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
-public class Display extends blk {
-    public void drawRect(float left, float top, float right, float bottom, int color) {
+public class Display {
+    public static void drawRect(float left, float top, float right, float bottom, int color) {
         float var11 = (float) (color >> 24 & 255) / 255.0F;
         float var6 = (float) (color >> 16 & 255) / 255.0F;
         float var7 = (float) (color >> 8 & 255) / 255.0F;
@@ -27,7 +27,7 @@ public class Display extends blk {
         glEnable(GL_TEXTURE_2D);
     }
 
-    public void drawVector(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, int color) {
+    public static void drawVector(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, int color) {
         float var11 = (float) (color >> 24 & 255) / 255.0F;
         float var6 = (float) (color >> 16 & 255) / 255.0F;
         float var7 = (float) (color >> 8 & 255) / 255.0F;
@@ -46,14 +46,17 @@ public class Display extends blk {
         glEnable(GL_TEXTURE_2D);
     }
 
-    public void pushScreen() {
+    public static void pushScreen() {
+        Rendering.pushIndex(GL_BLEND);
+        glDisable(GL_ALPHA_TEST);
         glEnable(GL_BLEND);
         glDepthMask(false);
         glColor4f(1, 1, 1, 1);
     }
 
-    public void popScreen() {
-        glDisable(GL_BLEND);
+    public static void popScreen() {
+        glEnable(GL_ALPHA_TEST);
+        Rendering.popIndex(GL_BLEND);
         glDepthMask(true);
         glColor4f(1, 1, 1, 1);
     }

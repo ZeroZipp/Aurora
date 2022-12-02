@@ -1,5 +1,8 @@
 package com.zerozipp.client;
 
+import com.zerozipp.client.utils.Network;
+import com.zerozipp.client.utils.base.Display;
+import com.zerozipp.client.utils.base.Packet;
 import com.zerozipp.client.utils.font.Render;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.reflect.JClass;
@@ -12,10 +15,11 @@ import java.awt.*;
 import java.io.InputStream;
 import static com.zerozipp.client.Invoker.*;
 
-@Aurora(Type.BASE)
+@Aurora(Type.CLIENT)
 @SuppressWarnings("unused")
 public class Client {
     public final Modules mods;
+    public final Network network;
     public final Integer build;
     public final String name;
 
@@ -25,12 +29,13 @@ public class Client {
     }
 
     public Client(String name, Integer build) {
+        this.network = new Network();
         this.mods = new Modules();
         this.build = build;
         this.name = name;
     }
 
-    public Render getFont(String path, int size) {
+    public static Render getFont(String path, int size) {
         Font font = new Font("default", Font.PLAIN, size);
         try { font = Font.createFont(Font.TRUETYPE_FONT, getResource(path)); }
         catch(Exception e) { e.printStackTrace(); }
@@ -38,7 +43,7 @@ public class Client {
         return Render.create(font, true, true);
     }
 
-    public InputStream getResource(String path) {
+    public static InputStream getResource(String path) {
         ClassLoader loader = ClassLoader.getSystemClassLoader();
         return java.util.Objects.requireNonNull(loader.getResourceAsStream("assets/" + path));
     }
@@ -48,15 +53,29 @@ public class Client {
     }
 
     public void onUpdate() {
-        Object player = JClass.getClass("minecraft").getField("mcPlayer").get(MC());
-        Object world = JClass.getClass("minecraft").getField("mcWorld").get(MC());
+        network.onReset();
+        JClass mc = JClass.getClass("minecraft");
+        Object player = mc.getField("mcPlayer").get(MC());
+        Object world = mc.getField("mcWorld").get(MC());
         if(player != null && world != null) {
             mods.onUpdate();
+            network.onUpdate();
         }
+    }
+
+    public void onOverlay() {
+        Display.pushScreen();
+        mods.onOverlay();
+        Display.popScreen();
     }
 
     public boolean onEvent(Events event) {
         return mods.onEvent(event);
+    }
+
+    public Packet onPacket(Packet packet) {
+        network.onPacket(packet);
+        return mods.onPacket(packet);
     }
 
     public void onKeyboard() {

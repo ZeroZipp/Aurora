@@ -6,14 +6,14 @@ import com.zerozipp.client.utils.types.Events;
 import com.zerozipp.client.utils.types.Type;
 
 @Aurora(Type.MODULE)
-public class Invisible extends Module {
-    public Invisible(String name, boolean active, Integer key) {
+public class Bright extends Module {
+    public Bright(String name, boolean active, Integer key) {
         super(name, active, key);
     }
 
     @Override
     public boolean onEvent(Events event) {
-        if(event == Events.INVISIBLE) return true;
+        if(event == Events.BRIGHT) return true;
         return super.onEvent(event);
     }
 }
