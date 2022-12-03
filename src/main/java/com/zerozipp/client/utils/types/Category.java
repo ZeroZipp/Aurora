@@ -7,6 +7,7 @@ import java.util.ArrayList;
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
 public enum Category {
+    MOVEMENT("Movement"),
     CAMERA("Camera"),
     SCREEN("Screen");
 

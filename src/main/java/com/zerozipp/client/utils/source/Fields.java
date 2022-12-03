@@ -13,6 +13,7 @@ public class Fields extends HashMap<String, String> {
         put("minecraft", "R");
         put("mcPlayer", "h");
         put("mcWorld", "f");
+        put("mcSettings", "t");
         put("guiScreen", "m");
         put("vertexPosition", "e");
         put("entityGround", "z");
@@ -36,5 +37,10 @@ public class Fields extends HashMap<String, String> {
         put("rSideHit", "b");
         put("rHitVec", "c");
         put("rEntityHit", "d");
+        put("keySneak", "Y");
+        put("keySprint", "Z");
+        put("motionX", "s");
+        put("motionY", "t");
+        put("motionZ", "u");
     }
 }

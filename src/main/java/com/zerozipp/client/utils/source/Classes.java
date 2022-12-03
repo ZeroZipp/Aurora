@@ -11,6 +11,7 @@ public class Classes extends HashMap<String, String> {
 
     public Classes() {
         put("minecraft", "bib");
+        put("settings", "bid");
         put("entity", "vg");
         put("entityLiving", "vp");
         put("player", "bud");
@@ -34,5 +35,8 @@ public class Classes extends HashMap<String, String> {
         put("raytrace", "bhc");
         put("overlay", "biq");
         put("resolution", "bit");
+        put("blockPos", "et");
+        put("blockState", "awt");
+        put("block", "aow");
     }
 }

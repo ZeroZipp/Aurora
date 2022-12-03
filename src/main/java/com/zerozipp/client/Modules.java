@@ -7,12 +7,15 @@ import com.zerozipp.client.utils.types.Category;
 import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.types.Events;
 import com.zerozipp.client.utils.types.Type;
+import org.lwjgl.input.Keyboard;
 import java.util.ArrayList;
 
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
 public class Modules {
     public Modules() {
+        Category.MOVEMENT.modules.add(new Sneak("Sneak", false, Keyboard.KEY_C));
+        Category.MOVEMENT.modules.add(new Flight("Flight", false, Keyboard.KEY_G));
         Category.CAMERA.modules.add(new Camera("Camera", true, null));
         Category.CAMERA.modules.add(new Bright("Bright", true, null));
         Category.SCREEN.modules.add(new Name("Name", true, null));

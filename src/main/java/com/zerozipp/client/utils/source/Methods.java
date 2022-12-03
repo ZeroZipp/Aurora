@@ -37,5 +37,10 @@ public class Methods extends HashMap<String, String> {
         put("getScaledHeight", "b");
         put("getScaledWidth", "a");
         put("updateLightmap", "g");
+        put("entityGetPos", "d");
+        put("blockPosDown", "b");
+        put("worldGetBlockState", "o");
+        put("blockStateGetBlock", "u");
+        put("blockIsTopSolid", "k");
     }
 }
