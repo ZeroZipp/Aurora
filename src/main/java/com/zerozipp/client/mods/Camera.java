@@ -13,12 +13,15 @@ public class Camera extends Module {
     public Camera(String name, boolean active, Integer key) {
         super(name, active, key);
         settings.add(new Toggle("Swing", true));
+        settings.add(new Toggle("Hurt", true));
     }
 
     @Override
     public boolean onEvent(Events event) {
         boolean bob = ((Toggle) settings.get(0)).isActive();
+        boolean hurt = ((Toggle) settings.get(1)).isActive();
         if(event == Events.BOBBLING && bob) renderHand();
+        if(event == Events.HURT && hurt) return true;
         if(event == Events.CAMERA) return true;
         return super.onEvent(event);
     }
