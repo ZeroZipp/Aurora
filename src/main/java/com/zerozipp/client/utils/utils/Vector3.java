@@ -1,4 +1,4 @@
-package com.zerozipp.client.utils;
+package com.zerozipp.client.utils.utils;
 
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.reflect.JClass;

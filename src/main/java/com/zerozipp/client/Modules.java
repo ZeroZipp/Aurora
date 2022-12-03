@@ -7,17 +7,16 @@ import com.zerozipp.client.utils.types.Category;
 import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.types.Events;
 import com.zerozipp.client.utils.types.Type;
-import org.lwjgl.input.Keyboard;
 import java.util.ArrayList;
 
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
 public class Modules {
     public Modules() {
-        Category.CAMERA.modules.add(new Camera("Camera", true, Keyboard.KEY_G));
-        Category.CAMERA.modules.add(new Bright("Bright", true, Keyboard.KEY_C));
-        Category.SCREEN.modules.add(new Name("Name", true, Keyboard.KEY_N));
-        Category.SCREEN.modules.add(new Keypad("Keypad", true, Keyboard.KEY_M));
+        Category.CAMERA.modules.add(new Camera("Camera", true, null));
+        Category.CAMERA.modules.add(new Bright("Bright", true, null));
+        Category.SCREEN.modules.add(new Name("Name", true, null));
+        Category.SCREEN.modules.add(new Keypad("Keypad", true, null));
     }
 
     public void onUpdate() {
@@ -33,7 +32,7 @@ public class Modules {
         for(Category category : Category.values()) {
             ArrayList<Module> modules = category.modules;
             for(Module mod : modules) {
-                Integer key = mod.keybinding.getKey();
+                Integer key = mod.keybind.getKey();
                 if(key != null && key.equals(code)) {
                     mod.setActive(!mod.isActive());
                 }

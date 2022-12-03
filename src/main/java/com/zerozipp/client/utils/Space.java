@@ -2,6 +2,7 @@ package com.zerozipp.client.utils;
 
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.types.Type;
+import com.zerozipp.client.utils.utils.Vector3;
 
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")

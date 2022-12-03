@@ -4,6 +4,7 @@ import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.reflect.JClass;
+import com.zerozipp.client.utils.settings.*;
 import com.zerozipp.client.utils.types.Events;
 import com.zerozipp.client.utils.types.Type;
 
@@ -11,12 +12,14 @@ import com.zerozipp.client.utils.types.Type;
 public class Camera extends Module {
     public Camera(String name, boolean active, Integer key) {
         super(name, active, key);
+        settings.add(new Toggle("Swing", true));
     }
 
     @Override
     public boolean onEvent(Events event) {
+        boolean bob = ((Toggle) settings.get(0)).isActive();
+        if(event == Events.BOBBLING && bob) renderHand();
         if(event == Events.CAMERA) return true;
-        if(event == Events.BOBBLING) renderHand();
         return super.onEvent(event);
     }
 

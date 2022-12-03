@@ -1,6 +1,6 @@
 package com.zerozipp.client.utils.base;
 
-import com.zerozipp.client.utils.Vector2;
+import com.zerozipp.client.utils.utils.Vector2;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.types.Type;
 import static org.lwjgl.opengl.GL11.*;

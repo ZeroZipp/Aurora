@@ -5,10 +5,10 @@ import com.zerozipp.client.utils.types.Type;
 
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
-public class Keybinding {
+public class Keybind {
     private Integer key = null;
 
-    public Keybinding(Integer key) {
+    public Keybind(Integer key) {
         setKey(key);
     }
 
