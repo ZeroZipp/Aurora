@@ -8,5 +8,7 @@ public enum Events {
     CAMERA,
     BOBBLING,
     BRIGHT,
-    HURT
+    HURT,
+    OUTLINES,
+    INVISIBLE
 }

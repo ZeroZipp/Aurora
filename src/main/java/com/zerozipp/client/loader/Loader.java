@@ -19,6 +19,7 @@ public class Loader implements IClassTransformer {
         if(C.get("renderer").equals(name)) return renderer(bytes);
         if(C.get("network").equals(name)) return network(bytes);
         if(C.get("overlay").equals(name)) return overlay(bytes);
+        if(C.get("entity").equals(name)) return entity(bytes);
         return bytes;
     }
 
@@ -40,6 +41,12 @@ public class Loader implements IClassTransformer {
     private byte[] overlay(byte[] bytes) {
         String name = M.get("renderOverlay"), invoke = "onOverlay";
         bytes = injector.invokeStatic(bytes, name, "(F)V", invoke, "()V", 918);
+        return bytes;
+    }
+
+    private byte[] entity(byte[] bytes) {
+        bytes = injector.invokeReturn(bytes, M.get("entityOutlines"), "()Z", "OUTLINES", 1, 0);
+        bytes = injector.invokeReturn(bytes, M.get("entityInvisible"), "()Z", "INVISIBLE", 0, 0);
         return bytes;
     }
 

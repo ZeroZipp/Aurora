@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public enum Category {
     MOVEMENT("Movement"),
     CAMERA("Camera"),
+    COMBAT("Combat"),
+    GAME("Game"),
     SCREEN("Screen");
 
     public final String name;

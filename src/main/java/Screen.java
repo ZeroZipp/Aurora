@@ -185,7 +185,8 @@ public class Screen extends blk {
         } else if(setting instanceof Value) {
             Value s = (Value) setting;
             float value = (s.max - s.min) * (pos / 100);
-            s.setValue(Math.round(2 * (value + s.min)) * 0.5f);
+            double v = Math.round(10 * (value + s.min)) * 0.1;
+            s.setValue((float) v);
         } else if(setting instanceof Option) {
             Option s = (Option) setting;
             if(button == 0) s.setIndex(s.getIndex() + 1);

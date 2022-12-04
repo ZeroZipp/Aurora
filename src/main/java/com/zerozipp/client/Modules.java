@@ -16,8 +16,15 @@ public class Modules {
     public Modules() {
         Category.MOVEMENT.modules.add(new Sneak("Sneak", false, Keyboard.KEY_C));
         Category.MOVEMENT.modules.add(new Flight("Flight", false, Keyboard.KEY_G));
+        Category.MOVEMENT.modules.add(new Sprint("Sprint", true, null));
         Category.CAMERA.modules.add(new Camera("Camera", true, null));
         Category.CAMERA.modules.add(new Bright("Bright", true, null));
+        Category.CAMERA.modules.add(new Outlines("Outlines", false, null));
+        Category.CAMERA.modules.add(new Invisible("Invisible", false, null));
+        Category.COMBAT.modules.add(new Attack("Attack", false, Keyboard.KEY_V));
+        Category.GAME.modules.add(new Place("Place", false, null));
+        Category.GAME.modules.add(new Blink("Blink", false, Keyboard.KEY_X));
+        Category.GAME.modules.add(new Ground("Ground", false, null));
         Category.SCREEN.modules.add(new Name("Name", true, null));
         Category.SCREEN.modules.add(new Keypad("Keypad", true, null));
     }

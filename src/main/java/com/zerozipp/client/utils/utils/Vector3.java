@@ -21,9 +21,9 @@ public class Vector3 {
     public Vector3(Object vec3d) {
         if(vec3d.getClass().getName().equals(C.get("vec3d"))) {
             JClass c = JClass.getClass("vec3d");
-            x = (float) c.getDecField("vecX").get(vec3d);
-            y = (float) c.getDecField("vecY").get(vec3d);
-            z = (float) c.getDecField("vecZ").get(vec3d);
+            x = (float) (double) c.getDecField("vecX").get(vec3d);
+            y = (float) (double) c.getDecField("vecY").get(vec3d);
+            z = (float) (double) c.getDecField("vecZ").get(vec3d);
         } else throw new RuntimeException("Not a 'Vector3D'");
     }
 

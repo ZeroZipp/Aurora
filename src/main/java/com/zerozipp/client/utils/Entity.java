@@ -18,9 +18,15 @@ public class Entity {
     }
 
     public static boolean isLiving(Object entity) {
-        JClass c = JClass.getClass("entityLiving");
+        JClass c = JClass.getClass("livingBase");
         JMethod m = c.getMethod("isAlive");
         return (boolean) m.call(entity);
+    }
+
+    public static double getDistance(Object entity, Object entity2) {
+        Vector3 pos = Entity.getEyes(entity);
+        Vector3 pos2 = Entity.getEyes(entity2);
+        return pos.distance(pos2);
     }
 
     public static Raytrace getCast(Object entity, Rotation rot, float reach) {
@@ -33,5 +39,24 @@ public class Entity {
         Object out = m.call(w, eyes.get(), dir.get(), false, false, true);
         if(out == null) return null;
         return new Raytrace(out);
+    }
+
+    public static Rotation getRot(Vector3 p1, Vector3 p2) {
+        double x = p2.x - p1.x;
+        double y = p2.y - p1.y;
+        double z = p2.z - p1.z;
+        double d = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
+        float yaw = (float)Math.toDegrees(-Math.atan(x/z));
+        float pitch = (float)-Math.toDegrees(Math.atan(y/d));
+
+        double v = Math.toDegrees(Math.atan(z/x));
+        if(x < 0 && z < 0) {
+            yaw = (float)(90 + v);
+        }else if(x > 0 && z < 0) {
+            yaw = (float)(-90 + v);
+        }
+
+        pitch = Math.min(Math.max(pitch, -90.0f), 90.0f);
+        return new Rotation(pitch, yaw);
     }
 }

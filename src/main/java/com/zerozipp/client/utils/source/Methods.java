@@ -42,5 +42,9 @@ public class Methods extends HashMap<String, String> {
         put("worldGetBlockState", "o");
         put("blockStateGetBlock", "u");
         put("blockIsTopSolid", "k");
+        put("entityOutlines", "aW");
+        put("entityInvisible", "aX");
+        put("attackEntity", "a");
+        put("criticalHit", "a");
     }
 }

@@ -20,6 +20,7 @@ public class Fields extends HashMap<String, String> {
         put("isKeyPressed", "i");
         put("cPlayerPitch", "e");
         put("cPlayerYaw", "d");
+        put("cPlayerGround", "f");
         put("prevRenderArmPitch", "bY");
         put("prevRenderArmYaw", "bX");
         put("renderArmPitch", "bW");
@@ -42,5 +43,15 @@ public class Fields extends HashMap<String, String> {
         put("motionX", "s");
         put("motionY", "t");
         put("motionZ", "u");
+        put("rightClickDelay", "as");
+        put("keyAttack", "ae");
+        put("keyJump", "X");
+        put("keyPressTime", "j");
+        put("leftClickCounter", "ai");
+        put("loadedEntityList", "e");
+        put("controller", "c");
+        put("armMain", "a");
+        put("armOffhand", "b");
+        put("ticksSwing", "aE");
     }
 }
