@@ -17,6 +17,12 @@ public class Entity {
         return new Vector3(m.call(entity, 1.0F));
     }
 
+    public static Vector3 getPosition(Object entity) {
+        JClass c = JClass.getClass("entity");
+        JMethod m = c.getMethod("entityGetPos");
+        return new Vector3(m.call(entity));
+    }
+
     public static boolean isLiving(Object entity) {
         JClass c = JClass.getClass("livingBase");
         JMethod m = c.getMethod("isAlive");

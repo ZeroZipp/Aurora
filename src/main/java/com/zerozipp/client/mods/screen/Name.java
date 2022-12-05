@@ -11,11 +11,9 @@ import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.font.Render;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.types.Type;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.function.ToDoubleFunction;
-
 import static java.util.Comparator.comparingDouble;
 
 @Aurora(Type.MODULE)
@@ -54,7 +52,7 @@ public class Name extends Module {
         ArrayList<Module> mods = Invoker.client.mods.getActive();
         mods.sort(comparingDouble(d));
         Collections.reverse(mods);
-        float index = 32.0f;
+        float index = pos.y + 22.0f;
         if(mod) for(Module m : mods) {
             int c = Color.text.getColor();
             float w = res.getWidth() - font.getStringWidth(m.name);
