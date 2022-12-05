@@ -1,4 +1,4 @@
-package com.zerozipp.client.mods;
+package com.zerozipp.client.mods.camera;
 
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.base.Module;
@@ -31,8 +31,8 @@ public class Camera extends Module {
         JClass p = JClass.getClass("player");
         JClass e = JClass.getClass("entity");
         Object player = JClass.getClass("minecraft").getField("mcPlayer").get(mc);
-        p.getField("prevRenderArmPitch").set(player, e.getField("prevRotationPitch").get(player));
-        p.getField("prevRenderArmYaw").set(player, e.getField("prevRotationYaw").get(player));
+        p.getField("prevRenderArmPitch").set(player, e.getField("rotationPitch").get(player));
+        p.getField("prevRenderArmYaw").set(player, e.getField("rotationYaw").get(player));
         p.getField("renderArmPitch").set(player, e.getField("rotationPitch").get(player));
         p.getField("renderArmYaw").set(player, e.getField("rotationYaw").get(player));
     }

@@ -1,4 +1,4 @@
-package com.zerozipp.client.mods;
+package com.zerozipp.client.mods.screen;
 
 import com.zerozipp.client.Client;
 import com.zerozipp.client.Invoker;
@@ -52,7 +52,7 @@ public class Keypad extends Module {
         onKey("SPACE", x, res.getHeight() - pos.y, (size + 2) * 3 - 2, size, space.getColor());
     }
 
-    public void onKey(String text, float x, float y, float w, float h, int c) {
+    private void onKey(String text, float x, float y, float w, float h, int c) {
         int b = new Color(0, 0, 0, 130).getColor();
         Display.drawRect(x, y - h, x + w, y, b);
         Display.drawRect(x, y - 1, x + w, y, c);

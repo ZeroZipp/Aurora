@@ -17,7 +17,7 @@ ao:2
 renderClouds:true
 resourcePacks:["Faithful-1.12.2.zip"]
 incompatibleResourcePacks:[]
-lastServer:blocksmc.com
+lastServer:mc.hycraft.us
 lang:en_us
 chatVisibility:0
 chatColors:true
@@ -50,7 +50,7 @@ showSubtitles:false
 realmsNotifications:true
 enableWeakAttacks:false
 autoJump:false
-narrator:0
+narrator:2
 tutorialStep:none
 key_key.attack:-100
 key_key.use:-99

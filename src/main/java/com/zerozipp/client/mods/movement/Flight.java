@@ -1,4 +1,4 @@
-package com.zerozipp.client.mods;
+package com.zerozipp.client.mods.movement;
 
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.base.Module;

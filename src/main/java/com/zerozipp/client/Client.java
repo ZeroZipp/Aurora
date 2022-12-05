@@ -74,8 +74,9 @@ public class Client {
     }
 
     public Packet onPacket(Packet packet) {
+        packet = mods.onPacket(packet);
         network.onPacket(packet);
-        return mods.onPacket(packet);
+        return packet;
     }
 
     public void onKeyboard() {

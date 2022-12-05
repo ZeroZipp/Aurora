@@ -53,5 +53,12 @@ public class Fields extends HashMap<String, String> {
         put("armMain", "a");
         put("armOffhand", "b");
         put("ticksSwing", "aE");
+        put("objectMouseOver", "s");
+        put("prevRenderYawOffset", "aO");
+        put("prevRotationYawHead", "aQ");
+        put("renderYawOffset", "aN");
+        put("rotationYawHead", "aP");
+        put("gameTimer", "Y");
+        put("tickLength", "e");
     }
 }

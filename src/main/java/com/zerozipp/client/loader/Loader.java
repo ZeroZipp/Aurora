@@ -15,6 +15,7 @@ public class Loader implements IClassTransformer {
 
     @Override
     public byte[] transform(String name, String transformed, byte[] bytes) {
+        if(C.get("renderLiving").equals(name)) return renderLiving(bytes);
         if(C.get("minecraft").equals(name)) return minecraft(bytes);
         if(C.get("renderer").equals(name)) return renderer(bytes);
         if(C.get("network").equals(name)) return network(bytes);
@@ -26,7 +27,7 @@ public class Loader implements IClassTransformer {
     private byte[] minecraft(byte[] bytes) {
         bytes = injector.invokeStatic(bytes, M.get("mcStart"), "()V", "onStart", "()V", 0);
         bytes = injector.invokeStatic(bytes, M.get("keyPatch"), "()V", "onKeyboard", "()V", 0);
-        bytes = injector.invokeStatic(bytes, M.get("runTick"), "()V", "onUpdate", "()V", 0);
+        bytes = injector.invokeStatic(bytes, M.get("runTick"), "()V", "onUpdate", "()V", 599);
         return bytes;
     }
 
@@ -35,6 +36,13 @@ public class Loader implements IClassTransformer {
         bytes = injector.invokeParam(bytes, M.get("getFov"), "(FZ)F", "CAMERA", 2, 1, 0);
         bytes = injector.invokeParam(bytes, M.get("updateLightmap"), "(F)V", "BRIGHT", 17, 10F, 426);
         bytes = injector.invokeReturn(bytes, M.get("hurtCam"), "(F)V", "HURT", 0);
+        return bytes;
+    }
+
+    private byte[] renderLiving(byte[] bytes) {
+        String name = M.get("renderLiving"), params = "(Ljava/lang/Object;)V";
+        bytes = injector.invokeStatic(bytes, name, "(Lvp;DDDFF)V", "endRender", params, 1, 448);
+        bytes = injector.invokeStatic(bytes, name, "(Lvp;DDDFF)V", "onRender", params, 1, 0);
         return bytes;
     }
 

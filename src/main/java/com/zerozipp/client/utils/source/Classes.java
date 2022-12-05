@@ -10,6 +10,7 @@ public class Classes extends HashMap<String, String> {
     public static final Classes C = new Classes();
 
     public Classes() {
+        put("clickGui", "Screen");
         put("minecraft", "bib");
         put("settings", "bid");
         put("entity", "vg");
@@ -26,7 +27,6 @@ public class Classes extends HashMap<String, String> {
         put("vertexFormat", "cdy");
         put("vertex", "cea");
         put("renderer", "buq");
-        put("clickGui", "Screen");
         put("network", "gw");
         put("cPlayer", "lk");
         put("cPlayerRot", "lk$c");
@@ -42,5 +42,7 @@ public class Classes extends HashMap<String, String> {
         put("block", "aow");
         put("hand", "ub");
         put("controller", "bsa");
+        put("renderLiving", "caa");
+        put("timer", "bih");
     }
 }

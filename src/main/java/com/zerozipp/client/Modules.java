@@ -1,6 +1,10 @@
 package com.zerozipp.client;
 
-import com.zerozipp.client.mods.*;
+import com.zerozipp.client.mods.camera.*;
+import com.zerozipp.client.mods.combat.*;
+import com.zerozipp.client.mods.game.*;
+import com.zerozipp.client.mods.movement.*;
+import com.zerozipp.client.mods.screen.*;
 import com.zerozipp.client.utils.base.Packet;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.types.Category;
@@ -22,11 +26,15 @@ public class Modules {
         Category.CAMERA.modules.add(new Outlines("Outlines", false, null));
         Category.CAMERA.modules.add(new Invisible("Invisible", false, null));
         Category.COMBAT.modules.add(new Attack("Attack", false, Keyboard.KEY_V));
+        Category.COMBAT.modules.add(new Rotate("Rotate", false, Keyboard.KEY_B));
+        Category.COMBAT.modules.add(new Trigger("Trigger", false, null));
         Category.GAME.modules.add(new Place("Place", false, null));
-        Category.GAME.modules.add(new Blink("Blink", false, Keyboard.KEY_X));
         Category.GAME.modules.add(new Ground("Ground", false, null));
+        Category.GAME.modules.add(new Blink("Blink", false, Keyboard.KEY_Y));
+        Category.GAME.modules.add(new Timer("Timer", false, Keyboard.KEY_X));
         Category.SCREEN.modules.add(new Name("Name", true, null));
         Category.SCREEN.modules.add(new Keypad("Keypad", true, null));
+        Category.SCREEN.modules.add(new Mods("Mods", true, null));
     }
 
     public void onUpdate() {
@@ -75,5 +83,13 @@ public class Modules {
 
     public boolean isEvent(Module mod, Events event) {
         return mod.isActive() && mod.onEvent(event);
+    }
+
+    public ArrayList<Module> getActive() {
+        ArrayList<Module> mods = new ArrayList<>();
+        for(Category category : Category.values()) {
+            ArrayList<Module> modules = category.modules;
+            for(Module mod : modules) if(mod.isActive()) mods.add(mod);
+        } return mods;
     }
 }

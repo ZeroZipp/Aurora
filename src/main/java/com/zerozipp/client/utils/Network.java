@@ -19,6 +19,14 @@ public class Network {
         rotation = new Rotation(pitch, yaw);
     }
 
+    public Rotation getRotation() {
+        return rotation;
+    }
+
+    public Rotation getPrevious() {
+        return previous;
+    }
+
     public void onReset() {
         previous = rotation;
         rotation = null;
@@ -26,7 +34,10 @@ public class Network {
 
     public void onUpdate() {
         if(!isPrevious()) {
-            Rotation rot = getRotation();
+            Object mc = Invoker.client.MC();
+            JClass c = JClass.getClass("minecraft");
+            Object player = c.getField("mcPlayer").get(mc);
+            Rotation rot = Entity.getRotation(player);
             if(rotation == null) sendPacket(rot.pitch, rot.yaw);
             else sendPacket(rotation.pitch, rotation.yaw);
         }
@@ -37,15 +48,6 @@ public class Network {
         if(previous == null) return false;
         if(rotation == null) return false;
         return rotation.equals(previous);
-    }
-
-    private Rotation getRotation() {
-        Object mc = Invoker.client.MC();
-        JClass e = JClass.getClass("entity");
-        Object player = JClass.getClass("minecraft").getField("mcPlayer").get(mc);
-        float x = (float) e.getField("rotationPitch").get(player);
-        float y = (float) e.getField("rotationYaw").get(player);
-        return new Rotation(x, y);
     }
 
     private void sendPacket(float pitch, float yaw) {

@@ -41,6 +41,68 @@ public class Entity {
         return new Raytrace(out);
     }
 
+    public static void setRotation(Object entity, Rotation rot) {
+        JClass e = JClass.getClass("entity");
+        e.getField("rotationPitch").set(entity, rot.pitch);
+        e.getField("rotationYaw").set(entity, rot.yaw);
+    }
+
+    public static void setPrevRotation(Object entity, Rotation rot) {
+        JClass e = JClass.getClass("entity");
+        e.getField("prevRotationPitch").set(entity, rot.pitch);
+        e.getField("prevRotationYaw").set(entity, rot.yaw);
+    }
+
+    public static void setYawOffset(Object entity, float yaw, float prev) {
+        JClass e = JClass.getClass("livingBase");
+        e.getField("prevRenderYawOffset").set(entity, prev);
+        e.getField("renderYawOffset").set(entity, yaw);
+    }
+
+    public static void setYawHead(Object entity, float yaw, float prev) {
+        JClass e = JClass.getClass("livingBase");
+        e.getField("prevRotationYawHead").set(entity, prev);
+        e.getField("rotationYawHead").set(entity, yaw);
+    }
+
+    public static float getYawHead(Object entity) {
+        JClass e = JClass.getClass("livingBase");
+        Object yaw = e.getField("rotationYawHead").get(entity);
+        return (float) yaw;
+    }
+
+    public static float getPrevYawHead(Object entity) {
+        JClass e = JClass.getClass("livingBase");
+        Object yaw = e.getField("prevRotationYawHead").get(entity);
+        return (float) yaw;
+    }
+
+    public static float getYawOffset(Object entity) {
+        JClass e = JClass.getClass("livingBase");
+        Object yaw = e.getField("renderYawOffset").get(entity);
+        return (float) yaw;
+    }
+
+    public static float getPrevYawOffset(Object entity) {
+        JClass e = JClass.getClass("livingBase");
+        Object yaw = e.getField("prevRenderYawOffset").get(entity);
+        return (float) yaw;
+    }
+
+    public static Rotation getRotation(Object entity) {
+        JClass e = JClass.getClass("entity");
+        Object pitch = e.getField("rotationPitch").get(entity);
+        Object yaw = e.getField("rotationYaw").get(entity);
+        return new Rotation((float) pitch, (float) yaw);
+    }
+
+    public static Rotation getPrevRotation(Object entity) {
+        JClass e = JClass.getClass("entity");
+        Object pitch = e.getField("prevRotationPitch").get(entity);
+        Object yaw = e.getField("prevRotationYaw").get(entity);
+        return new Rotation((float) pitch, (float) yaw);
+    }
+
     public static Rotation getRot(Vector3 p1, Vector3 p2) {
         double x = p2.x - p1.x;
         double y = p2.y - p1.y;

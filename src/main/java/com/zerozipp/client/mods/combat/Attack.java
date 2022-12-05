@@ -1,4 +1,4 @@
-package com.zerozipp.client.mods;
+package com.zerozipp.client.mods.combat;
 
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.Entity;
@@ -60,8 +60,9 @@ public class Attack extends Module {
                 float dist = (float) Entity.getDistance(player, entity);
                 Raytrace trace = Entity.getCast(player, rot, dist);
                 boolean ray = ((Toggle) settings.get(2)).isActive();
+                Rotation newRot = this.getRot(player, rot);
                 if((trace != null && trace.typeOfHit().toString().equals("MISS")) || !ray) {
-                    Invoker.client.network.setRotation(rot.pitch, rot.yaw);
+                    Invoker.client.network.setRotation(newRot.pitch, newRot.yaw);
                     float delay = ((Value) settings.get(1)).getValue();
                     if(((Toggle) settings.get(3)).isActive()) {
                         JClass el = JClass.getClass("livingBase");
@@ -77,6 +78,18 @@ public class Attack extends Module {
                 }
             }
         }
+    }
+
+    private Rotation getRot(Object entity, Rotation rot) {
+        JClass e = JClass.getClass("entity");
+        float yaw = (float) e.getField("rotationYaw").get(entity);
+        float pitch = (float) e.getField("rotationPitch").get(entity);
+        float cPitch = rot.pitch - pitch;
+        float cYaw = yaw % 360.0F;
+        float delta = rot.yaw - cYaw;
+        if(180.0F < delta) delta -= 360.0F;
+        else if(-180.0F > delta) delta += 360.0F;
+        return new Rotation(pitch + cPitch, yaw + delta);
     }
 
     private void sendPacket(Object hand) {

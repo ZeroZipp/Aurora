@@ -46,5 +46,7 @@ public class Methods extends HashMap<String, String> {
         put("entityInvisible", "aX");
         put("attackEntity", "a");
         put("criticalHit", "a");
+        put("clickMouse", "aA");
+        put("renderLiving", "a");
     }
 }

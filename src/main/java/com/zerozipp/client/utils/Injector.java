@@ -118,11 +118,31 @@ public class Injector {
         return new ClassWriter(1 | 2);
     }
 
+    private ClassWriter writeInvoke(MethodNode method, String name, String type, int param, int line) {
+        final MethodNode injected = new MethodNode();
+        injected.visitVarInsn(ALOAD, param);
+        injected.visitMethodInsn(INVOKESTATIC, invoker, name, type);
+        AbstractInsnNode a = method.instructions.get(line);
+        method.instructions.insert(a, injected.instructions);
+        return new ClassWriter(1 | 2);
+    }
+
     public byte[] invokeStatic(byte[] bytes, String method, String type, String invoke, String params, int line) {
         ClassNode classNode = getNode(bytes);
         ClassWriter classWriter = null;
         MethodNode methodNode = getMethod(classNode, method, type);
         if(methodNode != null) classWriter = writeInvoke(methodNode, invoke, params, line);
+        if(classWriter != null) {
+            classNode.accept(classWriter);
+            return classWriter.toByteArray();
+        } else return bytes;
+    }
+
+    public byte[] invokeStatic(byte[] bytes, String method, String type, String invoke, String params, int param, int line) {
+        ClassNode classNode = getNode(bytes);
+        ClassWriter classWriter = null;
+        MethodNode methodNode = getMethod(classNode, method, type);
+        if(methodNode != null) classWriter = writeInvoke(methodNode, invoke, params, param, line);
         if(classWriter != null) {
             classNode.accept(classWriter);
             return classWriter.toByteArray();
