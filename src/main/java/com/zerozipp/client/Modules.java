@@ -26,11 +26,11 @@ public class Modules {
         Category.CAMERA.modules.add(new Outlines("Outlines", false, null));
         Category.CAMERA.modules.add(new Invisible("Invisible", false, null));
         Category.COMBAT.modules.add(new Attack("Attack", false, Keyboard.KEY_V));
-        Category.COMBAT.modules.add(new Rotate("Rotate", false, Keyboard.KEY_B));
+        Category.COMBAT.modules.add(new Rotate("Rotate", false, null));
         Category.COMBAT.modules.add(new Trigger("Trigger", false, null));
         Category.GAME.modules.add(new Place("Place", false, null));
         Category.GAME.modules.add(new Ground("Ground", false, null));
-        Category.GAME.modules.add(new Blink("Blink", false, Keyboard.KEY_Y));
+        Category.GAME.modules.add(new Blink("Blink", false, Keyboard.KEY_B));
         Category.GAME.modules.add(new Timer("Timer", false, Keyboard.KEY_X));
         Category.SCREEN.modules.add(new Name("Name", true, null));
         Category.SCREEN.modules.add(new Keypad("Keypad", true, null));

@@ -19,10 +19,10 @@ public class Display {
         glBlendFunc(770, 771);
         glColor4f(var6, var7, var8, var11);
         buffer.begin(7, "vertexPosition");
-        buffer.pos(left, bottom, 0.0);
-        buffer.pos(right, bottom, 0.0);
-        buffer.pos(right, top, 0.0);
-        buffer.pos(left, top, 0.0);
+        buffer.pos(left, bottom, 0.0).end();
+        buffer.pos(right, bottom, 0.0).end();
+        buffer.pos(right, top, 0.0).end();
+        buffer.pos(left, top, 0.0).end();
         tessellator.draw();
         glEnable(GL_TEXTURE_2D);
     }
@@ -38,11 +38,35 @@ public class Display {
         glBlendFunc(770, 771);
         glColor4f(var6, var7, var8, var11);
         buffer.begin(7, "vertexPosition");
-        buffer.pos(p1.x, p1.y, 0.0);
-        buffer.pos(p2.x, p2.y, 0.0);
-        buffer.pos(p3.x, p3.y, 0.0);
-        buffer.pos(p4.x, p4.y, 0.0);
+        buffer.pos(p1.x, p1.y, 0.0).end();
+        buffer.pos(p2.x, p2.y, 0.0).end();
+        buffer.pos(p3.x, p3.y, 0.0).end();
+        buffer.pos(p4.x, p4.y, 0.0).end();
         tessellator.draw();
+        glEnable(GL_TEXTURE_2D);
+    }
+
+    public static void drawRect(float left, float top, float right, float bottom, int color, int color2) {
+        float var6 = (float) (color >> 16 & 255) / 255.0F;
+        float var7 = (float) (color >> 8 & 255) / 255.0F;
+        float var8 = (float) (color & 255) / 255.0F;
+        float var9 = (float) (color >> 24 & 255) / 255.0F;
+        float var13 = (float) (color2 >> 24 & 255) / 255.0F;
+        float var10 = (float) (color2 >> 16 & 255) / 255.0F;
+        float var11 = (float) (color2 >> 8 & 255) / 255.0F;
+        float var12 = (float) (color2 & 255) / 255.0F;
+        Tessellator tessellator = new Tessellator();
+        Buffer buffer = new Buffer(tessellator.getBuffer());
+        glDisable(GL_TEXTURE_2D);
+        glShadeModel(7425);
+        glBlendFunc(770, 771);
+        buffer.begin(7, "vertexPositionColor");
+        buffer.pos(left, bottom, 0.0).color(var10, var11, var12, var13).end();
+        buffer.pos(right, bottom, 0.0).color(var10, var11, var12, var13).end();
+        buffer.pos(right, top, 0.0).color(var6, var7, var8, var9).end();
+        buffer.pos(left, top, 0.0).color(var6, var7, var8, var9).end();
+        tessellator.draw();
+        glShadeModel(7424);
         glEnable(GL_TEXTURE_2D);
     }
 

@@ -19,6 +19,7 @@ public class Methods extends HashMap<String, String> {
         put("getFov", "a");
         put("beginBuffer", "a");
         put("posBuffer", "b");
+        put("colorBuffer", "a");
         put("endBuffer", "d");
         put("getTessellator", "a");
         put("getBuffer", "c");

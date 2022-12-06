@@ -4,6 +4,7 @@ import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.Entity;
 import com.zerozipp.client.utils.Rotation;
 import com.zerozipp.client.utils.reflect.JField;
+import com.zerozipp.client.utils.settings.Active;
 import com.zerozipp.client.utils.settings.Toggle;
 import com.zerozipp.client.utils.settings.Value;
 import com.zerozipp.client.utils.utils.Timer;
@@ -27,16 +28,29 @@ public class Attack extends Module {
     public Attack(String name, boolean active, Integer key) {
         super(name, active, key);
         timer = new Timer();
+        ArrayList<Active.Listing> list = new ArrayList<>();
+        list.add(new Active.Listing("Player", true));
+        list.add(new Active.Listing("Animal", true));
+        list.add(new Active.Listing("Mob", true));
+        list.add(new Active.Listing("Other", true));
         settings.add(new Value("Reach", 5, 2, 6));
         settings.add(new Value("Delay", 2, 1, 8));
         settings.add(new Toggle("Cast", true));
         settings.add(new Toggle("Wait", false));
+        settings.add(new Active("Entity", list));
+        settings.add(new Toggle("Screen", false));
     }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
         Object mc = Invoker.client.MC();
+        JClass minecraft = JClass.getClass("minecraft");
+        JField screen = minecraft.getField("guiScreen");
+        if(!((Toggle) settings.get(5)).isActive()) {
+            if(screen.get(mc) != null) return;
+        }
+
         JClass w = JClass.getClass("world");
         JClass c = JClass.getClass("minecraft");
         JClass con = JClass.getClass("controller");
@@ -51,7 +65,9 @@ public class Attack extends Module {
         float reach = ((Value) settings.get(0)).getValue();
         entityList.sort(comparingDouble(d));
         Vector3 pos = Entity.getEyes(player);
+
         for(Object entity : entityList) {
+            if(!isValid(entity)) continue;
             if(!p.isInstance(entity)) continue;
             if(!Entity.isLiving(entity)) continue;
             if(entity.equals(player)) continue;
@@ -78,6 +94,20 @@ public class Attack extends Module {
                 }
             }
         }
+    }
+
+    private boolean isValid(Object entity) {
+        Class<?> p = JClass.getClass("livingBase").get();
+        Class<?> ep = JClass.getClass("entityPlayer").get();
+        Class<?> ea = JClass.getClass("entityAnimal").get();
+        Class<?> em = JClass.getClass("entityMob").get();
+        ArrayList<Active.Listing> mobs = ((Active) settings.get(4)).listings;
+        boolean player = mobs.get(0).isActive() && ep.isInstance(entity);
+        boolean animal = mobs.get(1).isActive() && ea.isInstance(entity);
+        boolean mob = mobs.get(2).isActive() && em.isInstance(entity);
+        if(mobs.get(3).isActive() && !player && !animal && !mob) {
+            return p.isInstance(entity);
+        } else return player || animal || mob;
     }
 
     private Rotation getRot(Object entity, Rotation rot) {

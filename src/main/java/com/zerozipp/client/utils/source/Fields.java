@@ -16,6 +16,7 @@ public class Fields extends HashMap<String, String> {
         put("mcSettings", "t");
         put("guiScreen", "m");
         put("vertexPosition", "e");
+        put("vertexPositionColor", "f");
         put("entityGround", "z");
         put("isKeyPressed", "i");
         put("cPlayerPitch", "e");

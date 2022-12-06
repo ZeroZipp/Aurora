@@ -69,6 +69,7 @@ public class Screen extends blk {
             font.drawString(key, x + w - 3 - tWidth, y + position - f, Color.text.getColor(), false);
             if(module.keybind.equals(keybind)) doKey(color, offset, position);
             if(module.isOpened() && !module.settings.isEmpty()) {
+                float start = position;
                 for(Setting setting : module.settings) {
                     position += height;
                     int sColor = Color.setting.getColor();
@@ -93,8 +94,31 @@ public class Screen extends blk {
                         int vWidth = font.getStringWidth(v), c = Color.text.getColor();
                         font.drawString(v, x + w - 5 - vWidth, y + position - f, c, false);
                         font.drawString(setting.name, x - w + 5, y + position - f, Color.text.getColor(), false);
+                    } else if(setting instanceof Active) {
+                        Active s = (Active) setting;
+                        position -= height;
+                        float start1 = position;
+                        for(Active.Listing l : s.listings) {
+                            position += height;
+                            int c = Color.listing.getColor();
+                            int c1 = Color.text.getColor();
+                            c = !l.isActive() ? c : Color.enabled.getColor();
+                            c1 = l.isActive() ? c1 : Color.opened.getColor();
+                            drawRect(x - w, y + position - h, x + w, y + position + h, c);
+                            font.drawString(l.name, x - w + 5, y + position - f, c1, false);
+                        }
+
+                        int c1 = Color.module.getColor();
+                        float f1 = y + position + h, f2 = y + start1 + h;
+                        drawRect(x - w, f2, x + w, f2 + 0.5f, c1);
+                        drawRect(x - w, f1 - 0.5f, x + w, f1, c1);
                     }
                 }
+
+                int c1 = Color.window.getColor();
+                float f1 = y + position + h, f2 = y + start + h;
+                drawRect(x - w, f2, x + w, f2 + 0.5f, c1);
+                drawRect(x - w, f1 - 0.5f, x + w, f1, c1);
             }
         }
     }
@@ -142,6 +166,15 @@ public class Screen extends blk {
                                 float pos = (mouseX - (x - w)) / width * 100;
                                 onSetting(setting, mouseButton, pos);
                             } position += height;
+                            if(setting instanceof Active) {
+                                Active s = (Active) setting;
+                                position -= height;
+                                for(Active.Listing l : s.listings) {
+                                    if(mouseY > y + position - h && mouseY < y + position + h) {
+                                        if(mouseButton == 0) l.setActive(!l.isActive());
+                                    } position += height;
+                                }
+                            }
                         }
                     }
                 }
@@ -171,6 +204,11 @@ public class Screen extends blk {
                                     onSetting(setting, mouseButton, pos);
                                 }
                             } position += height;
+                            if(setting instanceof Active) {
+                                Active s = (Active) setting;
+                                position += s.listings.size() * height;
+                                position -= height;
+                            }
                         }
                     }
                 }
@@ -186,7 +224,7 @@ public class Screen extends blk {
             Value s = (Value) setting;
             float value = (s.max - s.min) * (pos / 100);
             double v = Math.round(10 * (value + s.min)) * 0.1;
-            s.setValue((float) v);
+            if(button == 0) s.setValue((float) v);
         } else if(setting instanceof Option) {
             Option s = (Option) setting;
             if(button == 0) s.setIndex(s.getIndex() + 1);

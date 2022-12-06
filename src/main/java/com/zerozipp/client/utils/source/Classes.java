@@ -16,6 +16,8 @@ public class Classes extends HashMap<String, String> {
         put("entity", "vg");
         put("livingBase", "vp");
         put("entityPlayer", "aed");
+        put("entityAnimal", "zv");
+        put("entityMob", "ade");
         put("player", "bud");
         put("world", "amu");
         put("keyBind", "bhy");

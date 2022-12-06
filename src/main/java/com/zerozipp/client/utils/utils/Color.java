@@ -11,7 +11,9 @@ public class Color {
     public static final Color border = new Color(0, 255, 0, 255);
     public static final Color module = new Color(78, 78, 78, 255);
     public static final Color setting = new Color(95, 95, 95, 255);
-    public static final Color slider = new Color(0, 255, 0, 50);
+    public static final Color listing = new Color(110, 110, 110, 255);
+    public static final Color enabled = new Color(103, 103, 103, 255);
+    public static final Color slider = new Color(0, 255, 0, 60);
     public static final Color active = new Color(65, 65, 65, 255);
     public static final Color text = new Color(255, 255, 255, 255);
     public static final Color opened = new Color(210, 210, 210, 255);
