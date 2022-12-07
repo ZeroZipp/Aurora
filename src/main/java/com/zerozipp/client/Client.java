@@ -69,6 +69,10 @@ public class Client {
         Display.popScreen();
     }
 
+    public void onRender(float ticks) {
+        mods.onRender(ticks);
+    }
+
     public boolean onEvent(Events event) {
         return mods.onEvent(event);
     }
@@ -80,7 +84,8 @@ public class Client {
     }
 
     public void onKeyboard() {
-        JField screen = JClass.getClass("minecraft").getField("guiScreen");
+        JClass mc = JClass.getClass("minecraft");
+        JField screen = mc.getField("guiScreen");
         if(Keyboard.getEventKeyState()) {
             if(screen.get(Invoker.client.MC()) == null) {
                 if(Keyboard.getEventKey() == 54) setScreen();
@@ -90,7 +95,7 @@ public class Client {
     }
 
     public void setScreen() {
-        JClass screen = JClass.getClass("clickGui");
+        JClass screen = JClass.nativeClass("Screen");
         Class<?> s = JClass.getClass("screen").get();
         Object guiScreen = screen.newInstance(screen.getConstructor());
         JMethod setScreen = JClass.getClass("minecraft").getMethod("mcSetScreen", s);

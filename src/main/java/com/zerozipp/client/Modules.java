@@ -25,9 +25,11 @@ public class Modules {
         Category.CAMERA.modules.add(new Bright("Bright", true, null));
         Category.CAMERA.modules.add(new Outlines("Outlines", false, null));
         Category.CAMERA.modules.add(new Invisible("Invisible", false, null));
+        Category.CAMERA.modules.add(new Names("Names", true, null));
         Category.COMBAT.modules.add(new Attack("Attack", false, Keyboard.KEY_V));
         Category.COMBAT.modules.add(new Rotate("Rotate", false, null));
         Category.COMBAT.modules.add(new Trigger("Trigger", false, null));
+        Category.COMBAT.modules.add(new Strafe("Strafe", false, null));
         Category.GAME.modules.add(new Place("Place", false, null));
         Category.GAME.modules.add(new Ground("Ground", false, null));
         Category.GAME.modules.add(new Blink("Blink", false, Keyboard.KEY_B));
@@ -91,5 +93,14 @@ public class Modules {
             ArrayList<Module> modules = category.modules;
             for(Module mod : modules) if(mod.isActive()) mods.add(mod);
         } return mods;
+    }
+
+    public void onRender(float ticks) {
+        for(Category category : Category.values()) {
+            ArrayList<Module> modules = category.modules;
+            for(Module mod : modules) {
+                if(mod.isActive()) mod.onRender(ticks);
+            }
+        }
     }
 }

@@ -55,4 +55,6 @@ public class Module {
     }
 
     public void onPacket(Packet packet) {}
+
+    public void onRender(float ticks) {}
 }

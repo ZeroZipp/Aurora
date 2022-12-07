@@ -10,7 +10,6 @@ public class Classes extends HashMap<String, String> {
     public static final Classes C = new Classes();
 
     public Classes() {
-        put("clickGui", "Screen");
         put("minecraft", "bib");
         put("settings", "bid");
         put("entity", "vg");

@@ -10,5 +10,6 @@ public enum Events {
     BRIGHT,
     HURT,
     OUTLINES,
-    INVISIBLE
+    INVISIBLE,
+    NAMES
 }

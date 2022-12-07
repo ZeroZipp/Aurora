@@ -49,5 +49,8 @@ public class Methods extends HashMap<String, String> {
         put("criticalHit", "a");
         put("clickMouse", "aA");
         put("renderLiving", "a");
+        put("canRenderName", "a");
+        put("renderWorld", "b");
+        put("setupCamera", "a");
     }
 }

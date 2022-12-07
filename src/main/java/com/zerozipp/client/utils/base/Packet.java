@@ -27,7 +27,7 @@ public class Packet {
     public void setValue(String name, Object value, boolean base) {
         String baseClass = type.getName().split("\\$")[0];
         String className = base ? baseClass : type.getName();
-        JClass c = JClass.getNative(className);
+        JClass c = JClass.nativeClass(className);
         c.getDecField(name).set(packet, value);
     }
 }

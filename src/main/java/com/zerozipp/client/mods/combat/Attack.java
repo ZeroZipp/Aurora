@@ -65,7 +65,6 @@ public class Attack extends Module {
         float reach = ((Value) settings.get(0)).getValue();
         entityList.sort(comparingDouble(d));
         Vector3 pos = Entity.getEyes(player);
-
         for(Object entity : entityList) {
             if(!isValid(entity)) continue;
             if(!p.isInstance(entity)) continue;
@@ -75,8 +74,8 @@ public class Attack extends Module {
                 Rotation rot = Entity.getRot(pos, Entity.getEyes(entity));
                 float dist = (float) Entity.getDistance(player, entity);
                 Raytrace trace = Entity.getCast(player, rot, dist);
-                boolean ray = ((Toggle) settings.get(2)).isActive();
                 Rotation newRot = this.getRot(player, rot);
+                boolean ray = ((Toggle) settings.get(2)).isActive();
                 if((trace != null && trace.typeOfHit().toString().equals("MISS")) || !ray) {
                     Invoker.client.network.setRotation(newRot.pitch, newRot.yaw);
                     float delay = ((Value) settings.get(1)).getValue();
@@ -87,6 +86,7 @@ public class Attack extends Module {
                     } else if(!timer.hasTime(delay * 80)) break;
                     JMethod a = con.getMethod("attackEntity", ep, e);
                     Object co = c.getField("controller").get(mc);
+                    Invoker.client.network.onUpdate();
                     a.call(co, player, entity);
                     JClass h = JClass.getClass("hand");
                     sendPacket(h.getField("armMain").get(null));

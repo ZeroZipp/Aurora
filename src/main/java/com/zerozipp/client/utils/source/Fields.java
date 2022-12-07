@@ -61,5 +61,9 @@ public class Fields extends HashMap<String, String> {
         put("rotationYawHead", "aP");
         put("gameTimer", "Y");
         put("tickLength", "e");
+        put("isGamePaused", "ag");
+        put("renderTicksPaused", "ah");
+        put("timerTicks", "b");
+        put("renderer", "o");
     }
 }

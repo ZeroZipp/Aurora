@@ -7,6 +7,7 @@ import com.zerozipp.client.utils.base.Packet;
 import com.zerozipp.client.utils.base.Rotating;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.reflect.JClass;
+import com.zerozipp.client.utils.reflect.JMethod;
 import com.zerozipp.client.utils.types.Events;
 import com.zerozipp.client.utils.types.Type;
 import org.apache.logging.log4j.LogManager;
@@ -41,6 +42,21 @@ public class Invoker {
 
     public static Packet onPacket(Packet packet) {
         return client.onPacket(packet);
+    }
+
+    public static void onRender() {
+        Object mc = client.MC();
+        JClass c = JClass.getClass("timer");
+        JClass renderer = JClass.getClass("renderer");
+        JClass minecraft = JClass.getClass("minecraft");
+        Object timer = minecraft.getDecField("gameTimer").get(mc);
+        boolean pause = (boolean) minecraft.getDecField("isGamePaused").get(mc);
+        JMethod setup = renderer.getDecMethod("setupCamera", float.class, int.class);
+        float pauseTicks = (float) minecraft.getDecField("renderTicksPaused").get(mc);
+        float ticks = (float) c.getDecField("timerTicks").get(timer);
+        Object r = minecraft.getDecField("renderer").get(mc);
+        setup.call(r, pause ? pauseTicks : ticks, 2);
+        client.onRender(pause ? pauseTicks : ticks);
     }
 
     public static void onRender(Object entity) {

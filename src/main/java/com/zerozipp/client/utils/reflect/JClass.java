@@ -28,9 +28,29 @@ public class JClass {
         }
     }
 
+    public JField nativeField(String name) {
+        try {
+            Field f = c.getField(name);
+            return new JField(f);
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new JException();
+        }
+    }
+
     public JField getDecField(String name) {
         try {
             Field f = c.getDeclaredField(F.get(name));
+            return new JField(f);
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new JException();
+        }
+    }
+
+    public JField nativeDecField(String name) {
+        try {
+            Field f = c.getDeclaredField(name);
             return new JField(f);
         } catch(Exception e) {
             e.printStackTrace();
@@ -47,9 +67,27 @@ public class JClass {
         }
     }
 
+    public JMethod nativeMethod(String name, Class<?>... args) {
+        try {
+            return new JMethod(c.getMethod(name, args));
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new JException();
+        }
+    }
+
     public JMethod getDecMethod(String name, Class<?>... args) {
         try {
             return new JMethod(c.getDeclaredMethod(M.get(name), args));
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new JException();
+        }
+    }
+
+    public JMethod nativeDecMethod(String name, Class<?>... args) {
+        try {
+            return new JMethod(c.getDeclaredMethod(name, args));
         } catch(Exception e) {
             e.printStackTrace();
             throw new JException();
@@ -87,7 +125,7 @@ public class JClass {
         }
     }
 
-    public static JClass getNative(String name) {
+    public static JClass nativeClass(String name) {
         try {
             return new JClass(Class.forName(name));
         } catch(Exception e) {
