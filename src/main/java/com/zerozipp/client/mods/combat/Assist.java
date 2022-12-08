@@ -2,6 +2,7 @@ package com.zerozipp.client.mods.combat;
 
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.Entity;
+import com.zerozipp.client.utils.Rotation;
 import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.base.Raytrace;
 import com.zerozipp.client.utils.interfaces.Aurora;
@@ -11,21 +12,18 @@ import com.zerozipp.client.utils.settings.Active;
 import com.zerozipp.client.utils.settings.Toggle;
 import com.zerozipp.client.utils.settings.Value;
 import com.zerozipp.client.utils.types.Type;
-import com.zerozipp.client.utils.utils.Timer;
+import com.zerozipp.client.utils.utils.Vector3;
 import java.util.ArrayList;
 
 @Aurora(Type.MODULE)
-public class Trigger extends Module {
-    private final Timer timer;
-
-    public Trigger(String name, boolean active, Integer key) {
+public class Assist extends Module {
+    public Assist(String name, boolean active, Integer key) {
         super(name, active, key);
-        timer = new Timer();
         ArrayList<Active.Listing> list = new ArrayList<>();
         list.add(new Active.Listing("Player", true));
         list.add(new Active.Listing("Animal", true));
         list.add(new Active.Listing("Mob", true));
-        settings.add(new Value("Delay", 2, 1, 8));
+        settings.add(new Value("Delay", 2, 1, 3));
         settings.add(new Active("Entity", list));
         settings.add(new Toggle("Screen", false));
     }
@@ -40,17 +38,19 @@ public class Trigger extends Module {
             if(screen.get(mc) != null) return;
         }
 
+        Object player = c.getField("mcPlayer").get(mc);
         Class<?> p = JClass.getClass("livingBase").get();
         Object object = c.getField("objectMouseOver").get(mc);
-        float delay = ((Value) settings.get(0)).getValue();
+        Vector3 pos = Entity.getEyes(player);
         if(object == null) return;
         Raytrace ray = new Raytrace(object);
         if(ray.typeOfHit().toString().equals("ENTITY")) {
             if(!isValid(ray.entityHit())) return;
             if(!p.isInstance(ray.entityHit())) return;
             if(!Entity.isLiving(ray.entityHit())) return;
-            if(!timer.hasTime(delay * 80)) return;
-            c.getDecMethod("clickMouse").call(mc);
+            Vector3 eyes = Entity.getEyes(ray.entityHit());
+            Rotation rot = Entity.getRot(pos, eyes);
+            this.onRotate(player, rot);
         }
     }
 
@@ -63,5 +63,21 @@ public class Trigger extends Module {
         boolean animal = mobs.get(1).isActive() && ea.isInstance(entity);
         boolean mob = mobs.get(2).isActive() && em.isInstance(entity);
         return player || animal || mob;
+    }
+
+    private void onRotate(Object entity, Rotation rot) {
+        JClass e = JClass.getClass("entity");
+        float yaw = (float) e.getField("rotationYaw").get(entity);
+        float pitch = (float) e.getField("rotationPitch").get(entity);
+        float delay = ((Value) this.settings.get(0)).getValue();
+        float cPitch = rot.pitch - pitch;
+        float cYaw = yaw % 360.0F;
+        float delta = rot.yaw - cYaw;
+        if(180.0F < delta) delta -= 360.0F;
+        else if(-180.0F > delta) delta += 360.0F;
+        pitch = pitch + cPitch / delay;
+        yaw = yaw + delta / delay;
+        Rotation x = new Rotation(pitch, yaw);
+        Entity.setRotation(entity, x);
     }
 }

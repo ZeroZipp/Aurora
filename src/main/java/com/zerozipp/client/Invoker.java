@@ -12,6 +12,7 @@ import com.zerozipp.client.utils.types.Events;
 import com.zerozipp.client.utils.types.Type;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Keyboard;
 
 @Aurora(Type.INJECT)
 @SuppressWarnings("unused")
@@ -84,6 +85,18 @@ public class Invoker {
         Object player = c.getField("mcPlayer").get(mc);
         if(player != null && player.equals(entity)) {
             Rotating.popRotation(entity);
+        }
+    }
+
+    public static void keyTyped(int key) {
+        if(key == Keyboard.KEY_TAB) {
+            JClass c = JClass.getClass("minecraft");
+            JClass screen = JClass.nativeClass("Session");
+            Class<?> s = JClass.getClass("screen").get();
+            Object last = c.getField("guiScreen").get(client.MC());
+            Object guiScreen = screen.newInstance(screen.getConstructor(s), last);
+            JMethod setScreen = c.getMethod("mcSetScreen", s);
+            setScreen.call(client.MC(), guiScreen);
         }
     }
 }

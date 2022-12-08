@@ -45,5 +45,6 @@ public class Classes extends HashMap<String, String> {
         put("controller", "bsa");
         put("renderLiving", "caa");
         put("timer", "bih");
+        put("screenMenu", "blr");
     }
 }

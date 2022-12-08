@@ -3,6 +3,8 @@ package com.zerozipp.client.mods.combat;
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.Entity;
 import com.zerozipp.client.utils.Rotation;
+import com.zerozipp.client.utils.reflect.JField;
+import com.zerozipp.client.utils.settings.Active;
 import com.zerozipp.client.utils.settings.Toggle;
 import com.zerozipp.client.utils.settings.Value;
 import com.zerozipp.client.utils.base.Module;
@@ -20,17 +22,28 @@ import java.util.function.ToDoubleFunction;
 public class Rotate extends Module {
     public Rotate(String name, boolean active, Integer key) {
         super(name, active, key);
+        ArrayList<Active.Listing> list = new ArrayList<>();
+        list.add(new Active.Listing("Player", true));
+        list.add(new Active.Listing("Animal", true));
+        list.add(new Active.Listing("Mob", true));
         settings.add(new Value("Reach", 5, 2, 6));
         settings.add(new Value("Delay", 2, 1, 3));
         settings.add(new Toggle("Cast", true));
+        settings.add(new Active("Entity", list));
+        settings.add(new Toggle("Screen", false));
     }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
         Object mc = Invoker.client.MC();
-        JClass w = JClass.getClass("world");
         JClass c = JClass.getClass("minecraft");
+        JField screen = c.getField("guiScreen");
+        if(!((Toggle) settings.get(4)).isActive()) {
+            if(screen.get(mc) != null) return;
+        }
+
+        JClass w = JClass.getClass("world");
         Object player = c.getField("mcPlayer").get(mc);
         Object world = c.getField("mcWorld").get(mc);
         Class<?> p = JClass.getClass("livingBase").get();
@@ -41,6 +54,7 @@ public class Rotate extends Module {
         entityList.sort(comparingDouble(d));
         Vector3 pos = Entity.getEyes(player);
         for(Object entity : entityList) {
+            if(!isValid(entity)) continue;
             if(!p.isInstance(entity)) continue;
             if(!Entity.isLiving(entity)) continue;
             if(entity.equals(player)) continue;
@@ -55,6 +69,17 @@ public class Rotate extends Module {
                 }
             }
         }
+    }
+
+    private boolean isValid(Object entity) {
+        Class<?> ep = JClass.getClass("entityPlayer").get();
+        Class<?> ea = JClass.getClass("entityAnimal").get();
+        Class<?> em = JClass.getClass("entityMob").get();
+        ArrayList<Active.Listing> mobs = ((Active) settings.get(3)).listings;
+        boolean player = mobs.get(0).isActive() && ep.isInstance(entity);
+        boolean animal = mobs.get(1).isActive() && ea.isInstance(entity);
+        boolean mob = mobs.get(2).isActive() && em.isInstance(entity);
+        return player || animal || mob;
     }
 
     private void onRotate(Object entity, Rotation rot) {

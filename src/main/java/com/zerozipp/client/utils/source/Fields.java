@@ -65,5 +65,6 @@ public class Fields extends HashMap<String, String> {
         put("renderTicksPaused", "ah");
         put("timerTicks", "b");
         put("renderer", "o");
+        put("session", "af");
     }
 }

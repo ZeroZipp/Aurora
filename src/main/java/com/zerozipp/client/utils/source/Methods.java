@@ -52,5 +52,9 @@ public class Methods extends HashMap<String, String> {
         put("canRenderName", "a");
         put("renderWorld", "b");
         put("setupCamera", "a");
+        put("guiOnKey", "a");
+        put("getMouseOver", "a");
+        put("addVelocity", "f");
+        put("setVelocity", "h");
     }
 }

@@ -50,7 +50,7 @@ showSubtitles:false
 realmsNotifications:true
 enableWeakAttacks:false
 autoJump:false
-narrator:2
+narrator:0
 tutorialStep:none
 key_key.attack:-100
 key_key.use:-99

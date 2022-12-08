@@ -16,6 +16,7 @@ public class Loader implements IClassTransformer {
     @Override
     public byte[] transform(String name, String transformed, byte[] bytes) {
         if(C.get("renderLiving").equals(name)) return renderLiving(bytes);
+        if(C.get("screenMenu").equals(name)) return screenMenu(bytes);
         if(C.get("minecraft").equals(name)) return minecraft(bytes);
         if(C.get("renderer").equals(name)) return renderer(bytes);
         if(C.get("network").equals(name)) return network(bytes);
@@ -48,6 +49,12 @@ public class Loader implements IClassTransformer {
         return bytes;
     }
 
+    private byte[] screenMenu(byte[] bytes) {
+        String name = M.get("guiOnKey"), invoke = "keyTyped";
+        bytes = injector.invokeInteger(bytes, name, "(CI)V", invoke, "(I)V", 2, 0);
+        return bytes;
+    }
+
     private byte[] overlay(byte[] bytes) {
         String name = M.get("renderOverlay"), invoke = "onOverlay";
         bytes = injector.invokeStatic(bytes, name, "(F)V", invoke, "()V", 918);
@@ -57,6 +64,8 @@ public class Loader implements IClassTransformer {
     private byte[] entity(byte[] bytes) {
         bytes = injector.invokeReturn(bytes, M.get("entityOutlines"), "()Z", "OUTLINES", 1, 0);
         bytes = injector.invokeReturn(bytes, M.get("entityInvisible"), "()Z", "INVISIBLE", 0, 0);
+        bytes = injector.invokeReturn(bytes, M.get("addVelocity"), "(DDD)V", "VELOCITY", 0);
+        bytes = injector.invokeReturn(bytes, M.get("setVelocity"), "(DDD)V", "VELOCITY", 0);
         return bytes;
     }
 

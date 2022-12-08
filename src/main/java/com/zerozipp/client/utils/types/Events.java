@@ -11,5 +11,6 @@ public enum Events {
     HURT,
     OUTLINES,
     INVISIBLE,
-    NAMES
+    NAMES,
+    VELOCITY
 }

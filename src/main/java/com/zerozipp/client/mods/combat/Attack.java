@@ -3,8 +3,10 @@ package com.zerozipp.client.mods.combat;
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.Entity;
 import com.zerozipp.client.utils.Rotation;
+import com.zerozipp.client.utils.base.Rotating;
 import com.zerozipp.client.utils.reflect.JField;
 import com.zerozipp.client.utils.settings.Active;
+import com.zerozipp.client.utils.settings.Option;
 import com.zerozipp.client.utils.settings.Toggle;
 import com.zerozipp.client.utils.settings.Value;
 import com.zerozipp.client.utils.utils.Timer;
@@ -32,7 +34,7 @@ public class Attack extends Module {
         list.add(new Active.Listing("Player", true));
         list.add(new Active.Listing("Animal", true));
         list.add(new Active.Listing("Mob", true));
-        list.add(new Active.Listing("Other", true));
+        settings.add(new Option("Mode", new String[] {"Packet", "Mouse"}, 0));
         settings.add(new Value("Reach", 5, 2, 6));
         settings.add(new Value("Delay", 2, 1, 8));
         settings.add(new Toggle("Cast", true));
@@ -45,14 +47,13 @@ public class Attack extends Module {
     public void onUpdate() {
         super.onUpdate();
         Object mc = Invoker.client.MC();
-        JClass minecraft = JClass.getClass("minecraft");
-        JField screen = minecraft.getField("guiScreen");
-        if(!((Toggle) settings.get(5)).isActive()) {
+        JClass c = JClass.getClass("minecraft");
+        JField screen = c.getField("guiScreen");
+        if(!((Toggle) settings.get(6)).isActive()) {
             if(screen.get(mc) != null) return;
         }
 
         JClass w = JClass.getClass("world");
-        JClass c = JClass.getClass("minecraft");
         JClass con = JClass.getClass("controller");
         Object player = c.getField("mcPlayer").get(mc);
         Object world = c.getField("mcWorld").get(mc);
@@ -62,7 +63,7 @@ public class Attack extends Module {
         Object entities = w.getField("loadedEntityList").get(world);
         ToDoubleFunction<Object> d = entity -> Entity.getDistance(player, entity);
         ArrayList<Object> entityList = (ArrayList<Object>) entities;
-        float reach = ((Value) settings.get(0)).getValue();
+        float reach = ((Value) settings.get(1)).getValue();
         entityList.sort(comparingDouble(d));
         Vector3 pos = Entity.getEyes(player);
         for(Object entity : entityList) {
@@ -75,39 +76,50 @@ public class Attack extends Module {
                 float dist = (float) Entity.getDistance(player, entity);
                 Raytrace trace = Entity.getCast(player, rot, dist);
                 Rotation newRot = this.getRot(player, rot);
-                boolean ray = ((Toggle) settings.get(2)).isActive();
+                boolean ray = ((Toggle) settings.get(3)).isActive();
                 if((trace != null && trace.typeOfHit().toString().equals("MISS")) || !ray) {
                     Invoker.client.network.setRotation(newRot.pitch, newRot.yaw);
-                    float delay = ((Value) settings.get(1)).getValue();
-                    if(((Toggle) settings.get(3)).isActive()) {
+                    float delay = ((Value) settings.get(2)).getValue();
+                    if(((Toggle) settings.get(4)).isActive()) {
                         JClass el = JClass.getClass("livingBase");
                         JField t = el.getDecField("ticksSwing");
                         if((int) t.get(player) <= 12) break;
                     } else if(!timer.hasTime(delay * 80)) break;
-                    JMethod a = con.getMethod("attackEntity", ep, e);
-                    Object co = c.getField("controller").get(mc);
-                    Invoker.client.network.onUpdate();
-                    a.call(co, player, entity);
-                    JClass h = JClass.getClass("hand");
-                    sendPacket(h.getField("armMain").get(null));
-                    break;
+                    if(((Option) settings.get(0)).getIndex() == 0) {
+                        JMethod a = con.getMethod("attackEntity", ep, e);
+                        Object co = c.getField("controller").get(mc);
+                        Invoker.client.network.onUpdate();
+                        a.call(co, player, entity);
+                        JClass h = JClass.getClass("hand");
+                        sendPacket(h.getField("armMain").get(null));
+                    } else if(((Option) settings.get(0)).getIndex() == 1) {
+                        JClass r = JClass.getClass("renderer");
+                        JField f = c.getField("objectMouseOver");
+                        JMethod m = r.getMethod("getMouseOver", float.class);
+                        Object er = c.getField("renderer").get(mc);
+                        Object object = f.get(mc);
+                        Rotating.pushRotation(player);
+                        Entity.setPrevRotation(player, rot);
+                        Entity.setRotation(player, rot);
+                        m.call(er, 1.0F);
+                        Rotating.popRotation(player);
+                        c.getDecMethod("clickMouse").call(mc);
+                        f.set(mc, object);
+                    } break;
                 }
             }
         }
     }
 
     private boolean isValid(Object entity) {
-        Class<?> p = JClass.getClass("livingBase").get();
         Class<?> ep = JClass.getClass("entityPlayer").get();
         Class<?> ea = JClass.getClass("entityAnimal").get();
         Class<?> em = JClass.getClass("entityMob").get();
-        ArrayList<Active.Listing> mobs = ((Active) settings.get(4)).listings;
+        ArrayList<Active.Listing> mobs = ((Active) settings.get(5)).listings;
         boolean player = mobs.get(0).isActive() && ep.isInstance(entity);
         boolean animal = mobs.get(1).isActive() && ea.isInstance(entity);
         boolean mob = mobs.get(2).isActive() && em.isInstance(entity);
-        if(mobs.get(3).isActive() && !player && !animal && !mob) {
-            return p.isInstance(entity);
-        } else return player || animal || mob;
+        return player || animal || mob;
     }
 
     private Rotation getRot(Object entity, Rotation rot) {

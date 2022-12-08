@@ -21,6 +21,8 @@ public class Modules {
         Category.MOVEMENT.modules.add(new Sneak("Sneak", false, Keyboard.KEY_C));
         Category.MOVEMENT.modules.add(new Flight("Flight", false, Keyboard.KEY_G));
         Category.MOVEMENT.modules.add(new Sprint("Sprint", true, null));
+        Category.MOVEMENT.modules.add(new Velocity("Velocity", false, null));
+        Category.MOVEMENT.modules.add(new Jump("Jump", false, null));
         Category.CAMERA.modules.add(new Camera("Camera", true, null));
         Category.CAMERA.modules.add(new Bright("Bright", true, null));
         Category.CAMERA.modules.add(new Outlines("Outlines", false, null));
@@ -29,7 +31,7 @@ public class Modules {
         Category.COMBAT.modules.add(new Attack("Attack", false, Keyboard.KEY_V));
         Category.COMBAT.modules.add(new Rotate("Rotate", false, null));
         Category.COMBAT.modules.add(new Trigger("Trigger", false, null));
-        Category.COMBAT.modules.add(new Strafe("Strafe", false, null));
+        Category.COMBAT.modules.add(new Assist("Assist", false, null));
         Category.GAME.modules.add(new Place("Place", false, null));
         Category.GAME.modules.add(new Ground("Ground", false, null));
         Category.GAME.modules.add(new Blink("Blink", false, Keyboard.KEY_B));
@@ -84,7 +86,8 @@ public class Modules {
     }
 
     public boolean isEvent(Module mod, Events event) {
-        return mod.isActive() && mod.onEvent(event);
+        boolean active = mod.isActive();
+        return active && mod.onEvent(event);
     }
 
     public ArrayList<Module> getActive() {
