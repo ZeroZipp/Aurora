@@ -51,15 +51,15 @@ public class Rotate extends Module {
         ToDoubleFunction<Object> d = entity -> Entity.getDistance(player, entity);
         ArrayList<Object> entityList = (ArrayList<Object>) entities;
         float reach = ((Value) settings.get(0)).getValue();
+        Vector3 pos = Entity.getEyes(player, 1.0f);
         entityList.sort(comparingDouble(d));
-        Vector3 pos = Entity.getEyes(player);
         for(Object entity : entityList) {
             if(!isValid(entity)) continue;
             if(!p.isInstance(entity)) continue;
             if(!Entity.isLiving(entity)) continue;
             if(entity.equals(player)) continue;
             if(Entity.getDistance(player, entity) < reach) {
-                Rotation rot = Entity.getRot(pos, Entity.getEyes(entity));
+                Rotation rot = Entity.getRot(pos, Entity.getEyes(entity, 1.0f));
                 float dist = (float) Entity.getDistance(player, entity);
                 Raytrace trace = Entity.getCast(player, rot, dist);
                 boolean ray = ((Toggle) settings.get(2)).isActive();

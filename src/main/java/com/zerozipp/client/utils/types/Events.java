@@ -7,9 +7,9 @@ import com.zerozipp.client.utils.interfaces.Aurora;
 public enum Events {
     CAMERA,
     BOBBLING,
+    OFFSET,
     BRIGHT,
     HURT,
-    OUTLINES,
     INVISIBLE,
     NAMES,
     VELOCITY

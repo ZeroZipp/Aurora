@@ -64,15 +64,15 @@ public class Attack extends Module {
         ToDoubleFunction<Object> d = entity -> Entity.getDistance(player, entity);
         ArrayList<Object> entityList = (ArrayList<Object>) entities;
         float reach = ((Value) settings.get(1)).getValue();
+        Vector3 pos = Entity.getEyes(player, 1.0f);
         entityList.sort(comparingDouble(d));
-        Vector3 pos = Entity.getEyes(player);
         for(Object entity : entityList) {
             if(!isValid(entity)) continue;
             if(!p.isInstance(entity)) continue;
             if(!Entity.isLiving(entity)) continue;
             if(entity.equals(player)) continue;
             if(Entity.getDistance(player, entity) < reach) {
-                Rotation rot = Entity.getRot(pos, Entity.getEyes(entity));
+                Rotation rot = Entity.getRot(pos, Entity.getEyes(entity, 1.0f));
                 float dist = (float) Entity.getDistance(player, entity);
                 Raytrace trace = Entity.getCast(player, rot, dist);
                 Rotation newRot = this.getRot(player, rot);
@@ -80,6 +80,7 @@ public class Attack extends Module {
                 if((trace != null && trace.typeOfHit().toString().equals("MISS")) || !ray) {
                     Invoker.client.network.setRotation(newRot.pitch, newRot.yaw);
                     float delay = ((Value) settings.get(2)).getValue();
+                    Invoker.client.network.onUpdate();
                     if(((Toggle) settings.get(4)).isActive()) {
                         JClass el = JClass.getClass("livingBase");
                         JField t = el.getDecField("ticksSwing");
@@ -88,7 +89,6 @@ public class Attack extends Module {
                     if(((Option) settings.get(0)).getIndex() == 0) {
                         JMethod a = con.getMethod("attackEntity", ep, e);
                         Object co = c.getField("controller").get(mc);
-                        Invoker.client.network.onUpdate();
                         a.call(co, player, entity);
                         JClass h = JClass.getClass("hand");
                         sendPacket(h.getField("armMain").get(null));
@@ -96,6 +96,7 @@ public class Attack extends Module {
                         JClass r = JClass.getClass("renderer");
                         JField f = c.getField("objectMouseOver");
                         JMethod m = r.getMethod("getMouseOver", float.class);
+                        JMethod mouse = c.getDecMethod("clickMouse");
                         Object er = c.getField("renderer").get(mc);
                         Object object = f.get(mc);
                         Rotating.pushRotation(player);
@@ -103,8 +104,11 @@ public class Attack extends Module {
                         Entity.setRotation(player, rot);
                         m.call(er, 1.0F);
                         Rotating.popRotation(player);
-                        c.getDecMethod("clickMouse").call(mc);
-                        f.set(mc, object);
+                        if(f.get(mc) != null) {
+                            Raytrace raytrace = new Raytrace(f.get(mc));
+                            String ie = raytrace.typeOfHit().toString();
+                            if(ie.equals("ENTITY")) mouse.call(mc);
+                        } f.set(mc, object);
                     } break;
                 }
             }

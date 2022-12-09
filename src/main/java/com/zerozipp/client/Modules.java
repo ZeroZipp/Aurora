@@ -25,9 +25,9 @@ public class Modules {
         Category.MOVEMENT.modules.add(new Jump("Jump", false, null));
         Category.CAMERA.modules.add(new Camera("Camera", true, null));
         Category.CAMERA.modules.add(new Bright("Bright", true, null));
-        Category.CAMERA.modules.add(new Outlines("Outlines", false, null));
         Category.CAMERA.modules.add(new Invisible("Invisible", false, null));
         Category.CAMERA.modules.add(new Names("Names", true, null));
+        Category.CAMERA.modules.add(new Tracers("Tracers", true, null));
         Category.COMBAT.modules.add(new Attack("Attack", false, Keyboard.KEY_V));
         Category.COMBAT.modules.add(new Rotate("Rotate", false, null));
         Category.COMBAT.modules.add(new Trigger("Trigger", false, null));

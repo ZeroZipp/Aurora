@@ -41,14 +41,14 @@ public class Assist extends Module {
         Object player = c.getField("mcPlayer").get(mc);
         Class<?> p = JClass.getClass("livingBase").get();
         Object object = c.getField("objectMouseOver").get(mc);
-        Vector3 pos = Entity.getEyes(player);
+        Vector3 pos = Entity.getEyes(player, 1.0f);
         if(object == null) return;
         Raytrace ray = new Raytrace(object);
         if(ray.typeOfHit().toString().equals("ENTITY")) {
             if(!isValid(ray.entityHit())) return;
             if(!p.isInstance(ray.entityHit())) return;
             if(!Entity.isLiving(ray.entityHit())) return;
-            Vector3 eyes = Entity.getEyes(ray.entityHit());
+            Vector3 eyes = Entity.getEyes(ray.entityHit(), 1.0f);
             Rotation rot = Entity.getRot(pos, eyes);
             this.onRotate(player, rot);
         }

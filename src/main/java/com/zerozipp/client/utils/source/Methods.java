@@ -56,5 +56,10 @@ public class Methods extends HashMap<String, String> {
         put("getMouseOver", "a");
         put("addVelocity", "f");
         put("setVelocity", "h");
+        put("getViewEntity", "aa");
+        put("getEntityName", "h_");
+        put("getEyeHeight", "by");
+        put("getLook", "e");
+        put("applyBobbing", "e");
     }
 }

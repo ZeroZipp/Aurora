@@ -31,6 +31,10 @@ public class Vector3 {
         return new Vector3(this.x + x, this.y + y, this.z + z);
     }
 
+    public Vector3 add(Vector3 look) {
+        return new Vector3(x + look.x, y + look.y, z + look.z);
+    }
+
     public double distance(Vector3 vec) {
         double x = vec.x - this.x;
         double y = vec.y - this.y;

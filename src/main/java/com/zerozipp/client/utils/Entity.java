@@ -9,12 +9,21 @@ import com.zerozipp.client.utils.types.Type;
 import com.zerozipp.client.utils.utils.Vector3;
 
 @Aurora(Type.BASE)
-@SuppressWarnings("unused")
+@SuppressWarnings({
+        "unused",
+        "BooleanMethodIsAlwaysInverted"
+})
 public class Entity {
-    public static Vector3 getEyes(Object entity) {
+    public static Vector3 getEyes(Object entity, float ticks) {
         JClass c = JClass.getClass("entity");
         JMethod m = c.getMethod("getPositionEyes", float.class);
-        return new Vector3(m.call(entity, 1.0F));
+        return new Vector3(m.call(entity, ticks));
+    }
+
+    public static Vector3 getLook(Object entity, float ticks) {
+        JClass c = JClass.getClass("entity");
+        JMethod m = c.getMethod("getLook", float.class);
+        return new Vector3(m.call(entity, ticks));
     }
 
     public static Vector3 getPosition(Object entity) {
@@ -30,15 +39,15 @@ public class Entity {
     }
 
     public static double getDistance(Object entity, Object entity2) {
-        Vector3 pos = Entity.getEyes(entity);
-        Vector3 pos2 = Entity.getEyes(entity2);
+        Vector3 pos = Entity.getEyes(entity, 1.0f);
+        Vector3 pos2 = Entity.getEyes(entity2, 1.0f);
         return pos.distance(pos2);
     }
 
     public static Raytrace getCast(Object entity, Rotation rot, float reach) {
         Class<?> bhe = JClass.getClass("vec3d").get();
         JClass c = JClass.getClass("world");
-        Vector3 look = Space.getLook(rot.pitch, rot.yaw), eyes = Entity.getEyes(entity);
+        Vector3 look = Space.getLook(rot.pitch, rot.yaw), eyes = Entity.getEyes(entity, 1.0f);
         Vector3 dir = eyes.add(look.x * reach, look.y * reach, look.z * reach);
         Object w = JClass.getClass("minecraft").getField("mcWorld").get(Invoker.client.MC());
         JMethod m = c.getMethod("rayTrace", bhe, bhe, boolean.class, boolean.class, boolean.class);

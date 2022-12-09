@@ -33,10 +33,11 @@ public class Loader implements IClassTransformer {
     }
 
     private byte[] renderer(byte[] bytes) {
-        bytes = injector.invokeEvent(bytes, M.get("renderHand"), "(FI)V", "BOBBLING", 0);
+        bytes = injector.invokeEvent(bytes, M.get("renderHand"), "(FI)V", "OFFSET", 0);
         bytes = injector.invokeParam(bytes, M.get("getFov"), "(FZ)F", "CAMERA", 2, 1, 0);
         bytes = injector.invokeParam(bytes, M.get("updateLightmap"), "(F)V", "BRIGHT", 17, 10F, 426);
         bytes = injector.invokeStatic(bytes, M.get("renderWorld"), "(FJ)V", "onRender", "()V", 109);
+        bytes = injector.invokeReturn(bytes, M.get("applyBobbing"), "(F)V", "BOBBLING", 0);
         bytes = injector.invokeReturn(bytes, M.get("hurtCam"), "(F)V", "HURT", 0);
         return bytes;
     }
@@ -62,7 +63,6 @@ public class Loader implements IClassTransformer {
     }
 
     private byte[] entity(byte[] bytes) {
-        bytes = injector.invokeReturn(bytes, M.get("entityOutlines"), "()Z", "OUTLINES", 1, 0);
         bytes = injector.invokeReturn(bytes, M.get("entityInvisible"), "()Z", "INVISIBLE", 0, 0);
         bytes = injector.invokeReturn(bytes, M.get("addVelocity"), "(DDD)V", "VELOCITY", 0);
         bytes = injector.invokeReturn(bytes, M.get("setVelocity"), "(DDD)V", "VELOCITY", 0);

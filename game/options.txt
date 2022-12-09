@@ -7,7 +7,7 @@ saturation:0.0
 renderDistance:12
 guiScale:2
 particles:0
-bobView:false
+bobView:true
 anaglyph3d:false
 maxFps:120
 fboEnable:true

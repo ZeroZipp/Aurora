@@ -20,7 +20,8 @@ public class Camera extends Module {
     public boolean onEvent(Events event) {
         boolean bob = ((Toggle) settings.get(0)).isActive();
         boolean hurt = ((Toggle) settings.get(1)).isActive();
-        if(event == Events.BOBBLING && bob) renderHand();
+        if(event == Events.BOBBLING && hurt) return true;
+        if(event == Events.OFFSET && bob) renderHand();
         if(event == Events.HURT && hurt) return true;
         if(event == Events.CAMERA) return true;
         return super.onEvent(event);
