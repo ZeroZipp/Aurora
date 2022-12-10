@@ -7,6 +7,7 @@ import com.zerozipp.client.utils.reflect.JClass;
 import com.zerozipp.client.utils.reflect.JMethod;
 import com.zerozipp.client.utils.types.Type;
 import com.zerozipp.client.utils.utils.Rotation;
+import com.zerozipp.client.utils.utils.Vector3;
 
 import java.lang.reflect.Constructor;
 import static com.zerozipp.client.utils.source.Classes.C;
@@ -53,14 +54,17 @@ public class Network {
     }
 
     private void sendPacket(float pitch, float yaw) {
-        JClass rot = JClass.getClass("cPlayerRot");
+        Class<?> f = float.class, d = double.class;
+        JClass mc = JClass.getClass("minecraft");
+        JClass rot = JClass.getClass("cPlayerPosRot");
         Class<?> ht = JClass.getClass("packet").get();
-        Constructor<?> c = rot.getConstructor(float.class, float.class, boolean.class);
+        Constructor<?> c = rot.getConstructor(d, d, d, f, f, boolean.class);
+        Object player = mc.getField("mcPlayer").get(Invoker.client.MC());
         JMethod send = JClass.getClass("netHandler").getMethod("sendPacket", ht);
-        Object player = JClass.getClass("minecraft").getField("mcPlayer").get(Invoker.client.MC());
         Object connection = JClass.getClass("player").getField("connection").get(player);
         Object ground = JClass.getClass("entity").getField("entityGround").get(player);
-        send.call(connection, rot.newInstance(c, yaw, pitch, ground));
+        Vector3 pos = Entity.getPosition(mc.getField("mcPlayer").get(Invoker.client.MC()));
+        send.call(connection, rot.newInstance(c, pos.x, pos.y, pos.z, yaw, pitch, ground));
     }
 
     public void onPacket(Packet packet) {
