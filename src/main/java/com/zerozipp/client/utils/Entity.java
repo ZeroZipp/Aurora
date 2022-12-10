@@ -185,4 +185,11 @@ public class Entity {
         pitch = Math.min(Math.max(pitch, -90.0f), 90.0f);
         return new Rotation(pitch, yaw);
     }
+
+    public static Rotation getPacketRot(Object player) {
+        JClass e = JClass.getClass("player");
+        Object pitch = e.getDecField("reportedPitch").get(player);
+        Object yaw = e.getDecField("reportedYaw").get(player);
+        return new Rotation((float) pitch, (float) yaw);
+    }
 }

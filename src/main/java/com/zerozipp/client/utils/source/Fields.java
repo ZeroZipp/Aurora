@@ -67,5 +67,7 @@ public class Fields extends HashMap<String, String> {
         put("renderer", "o");
         put("session", "af");
         put("thirdPersonView", "aw");
+        put("reportedPitch", "ci");
+        put("reportedYaw", "ch");
     }
 }

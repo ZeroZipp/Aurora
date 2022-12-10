@@ -78,11 +78,13 @@ public class Modules {
         } return false;
     }
 
-    public Packet onPacket(Packet packet) {
+    public void onPacket(Packet packet) {
         for(Category category : Category.values()) {
             ArrayList<Module> modules = category.modules;
-            for(Module mod : modules) if(mod.isActive()) mod.onPacket(packet);
-        } return packet;
+            for(Module mod : modules) {
+                if(mod.isActive()) mod.onPacket(packet);
+            }
+        }
     }
 
     public boolean isEvent(Module mod, Events event) {

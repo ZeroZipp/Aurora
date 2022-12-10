@@ -35,10 +35,8 @@ public class Assist extends Module {
         Object mc = Invoker.client.MC();
         JClass c = JClass.getClass("minecraft");
         JField screen = c.getField("guiScreen");
-        if(!((Toggle) settings.get(3)).isActive()) {
-            if(screen.get(mc) != null) return;
-        }
-
+        boolean s = !((Toggle) settings.get(3)).isActive();
+        if(s && screen.get(mc) != null) return;
         Object player = c.getField("mcPlayer").get(mc);
         Class<?> p = JClass.getClass("livingBase").get();
         Object object = c.getField("objectMouseOver").get(mc);

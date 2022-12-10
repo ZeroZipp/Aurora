@@ -45,6 +45,26 @@ public class Invoker {
         return client.onPacket(packet);
     }
 
+    public static void onMove(Object entity) {
+        Object mc = Invoker.client.MC();
+        JClass c = JClass.getClass("minecraft");
+        Object player = c.getField("mcPlayer").get(mc);
+        if(player != null && player.equals(entity)) {
+            Rotating.pushRotation(entity);
+            Rotation rot = client.network.getRotation();
+            if(rot != null) Entity.setRotation(entity, rot);
+        }
+    }
+
+    public static void endMove(Object entity) {
+        Object mc = Invoker.client.MC();
+        JClass c = JClass.getClass("minecraft");
+        Object player = c.getField("mcPlayer").get(mc);
+        if(player != null && player.equals(entity)) {
+            Rotating.popRotation(entity);
+        }
+    }
+
     public static void onRender() {
         Object mc = client.MC();
         JClass c = JClass.getClass("timer");

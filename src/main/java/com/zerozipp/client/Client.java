@@ -60,7 +60,6 @@ public class Client {
         Object world = mc.getField("mcWorld").get(MC());
         if(player != null && world != null) {
             mods.onUpdate();
-            network.onUpdate();
         }
     }
 
@@ -81,8 +80,8 @@ public class Client {
     }
 
     public Packet onPacket(Packet packet) {
-        packet = mods.onPacket(packet);
         network.onPacket(packet);
+        mods.onPacket(packet);
         return packet;
     }
 

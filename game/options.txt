@@ -11,13 +11,13 @@ bobView:true
 anaglyph3d:false
 maxFps:120
 fboEnable:true
-difficulty:2
+difficulty:1
 fancyGraphics:true
 ao:2
 renderClouds:true
 resourcePacks:["Faithful-1.12.2.zip"]
 incompatibleResourcePacks:[]
-lastServer:mc.hycraft.us
+lastServer:test.ccbluex.net
 lang:en_us
 chatVisibility:0
 chatColors:true

@@ -62,5 +62,6 @@ public class Methods extends HashMap<String, String> {
         put("getEyeHeight", "by");
         put("getLook", "e");
         put("applyBobbing", "e");
+        put("walkPlayer", "N");
     }
 }

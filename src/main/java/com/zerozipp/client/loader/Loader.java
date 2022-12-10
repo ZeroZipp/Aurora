@@ -22,6 +22,7 @@ public class Loader implements IClassTransformer {
         if(C.get("network").equals(name)) return network(bytes);
         if(C.get("overlay").equals(name)) return overlay(bytes);
         if(C.get("entity").equals(name)) return entity(bytes);
+        if(C.get("player").equals(name)) return player(bytes);
         return bytes;
     }
 
@@ -66,6 +67,13 @@ public class Loader implements IClassTransformer {
         bytes = injector.invokeReturn(bytes, M.get("entityInvisible"), "()Z", "INVISIBLE", 0, 0);
         bytes = injector.invokeReturn(bytes, M.get("addVelocity"), "(DDD)V", "VELOCITY", 0);
         bytes = injector.invokeReturn(bytes, M.get("setVelocity"), "(DDD)V", "VELOCITY", 0);
+        return bytes;
+    }
+
+    private byte[] player(byte[] bytes) {
+        String name = M.get("walkPlayer"), params = "(Ljava/lang/Object;)V";
+        bytes = injector.invokeStatic(bytes, name, "()V", "endMove", params, 0, 375);
+        bytes = injector.invokeStatic(bytes, name, "()V", "onMove", params, 0, 0);
         return bytes;
     }
 

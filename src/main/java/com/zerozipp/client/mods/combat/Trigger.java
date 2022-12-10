@@ -37,10 +37,8 @@ public class Trigger extends Module {
         Object mc = Invoker.client.MC();
         JClass c = JClass.getClass("minecraft");
         JField screen = c.getField("guiScreen");
-        if(!((Toggle) settings.get(3)).isActive()) {
-            if(screen.get(mc) != null) return;
-        }
-
+        boolean s = !((Toggle) settings.get(3)).isActive();
+        if(s && screen.get(mc) != null) return;
         Class<?> p = JClass.getClass("livingBase").get();
         Object object = c.getField("objectMouseOver").get(mc);
         float delay = ((Value) settings.get(0)).getValue();

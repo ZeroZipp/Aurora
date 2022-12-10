@@ -31,7 +31,6 @@ public class Classes extends HashMap<String, String> {
         put("network", "gw");
         put("cPlayer", "lk");
         put("cPlayerRot", "lk$c");
-        put("cPlayerPosRot", "lk$b");
         put("cSwingArm", "ly");
         put("netHandler", "brz");
         put("packet", "ht");
