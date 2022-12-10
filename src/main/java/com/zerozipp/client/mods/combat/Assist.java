@@ -2,7 +2,7 @@ package com.zerozipp.client.mods.combat;
 
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.Entity;
-import com.zerozipp.client.utils.Rotation;
+import com.zerozipp.client.utils.utils.Rotation;
 import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.base.Raytrace;
 import com.zerozipp.client.utils.interfaces.Aurora;
@@ -25,6 +25,7 @@ public class Assist extends Module {
         list.add(new Active.Listing("Mob", true));
         settings.add(new Value("Delay", 2, 1, 3));
         settings.add(new Active("Entity", list));
+        settings.add(new Toggle("Invisible", true));
         settings.add(new Toggle("Screen", false));
     }
 
@@ -34,13 +35,14 @@ public class Assist extends Module {
         Object mc = Invoker.client.MC();
         JClass c = JClass.getClass("minecraft");
         JField screen = c.getField("guiScreen");
-        if(!((Toggle) settings.get(2)).isActive()) {
+        if(!((Toggle) settings.get(3)).isActive()) {
             if(screen.get(mc) != null) return;
         }
 
         Object player = c.getField("mcPlayer").get(mc);
         Class<?> p = JClass.getClass("livingBase").get();
         Object object = c.getField("objectMouseOver").get(mc);
+        boolean in = ((Toggle) settings.get(2)).isActive();
         Vector3 pos = Entity.getEyes(player, 1.0f);
         if(object == null) return;
         Raytrace ray = new Raytrace(object);
@@ -48,6 +50,7 @@ public class Assist extends Module {
             if(!isValid(ray.entityHit())) return;
             if(!p.isInstance(ray.entityHit())) return;
             if(!Entity.isLiving(ray.entityHit())) return;
+            if(!in && Entity.isInvisible(ray.entityHit())) return;
             Vector3 eyes = Entity.getEyes(ray.entityHit(), 1.0f);
             Rotation rot = Entity.getRot(pos, eyes);
             this.onRotate(player, rot);

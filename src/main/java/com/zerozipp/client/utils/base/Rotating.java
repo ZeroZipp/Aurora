@@ -1,7 +1,7 @@
 package com.zerozipp.client.utils.base;
 
 import com.zerozipp.client.utils.Entity;
-import com.zerozipp.client.utils.Rotation;
+import com.zerozipp.client.utils.utils.Rotation;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.types.Type;
 import java.util.HashMap;

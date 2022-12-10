@@ -27,6 +27,7 @@ public class Trigger extends Module {
         list.add(new Active.Listing("Mob", true));
         settings.add(new Value("Delay", 2, 1, 8));
         settings.add(new Active("Entity", list));
+        settings.add(new Toggle("Invisible", true));
         settings.add(new Toggle("Screen", false));
     }
 
@@ -36,19 +37,21 @@ public class Trigger extends Module {
         Object mc = Invoker.client.MC();
         JClass c = JClass.getClass("minecraft");
         JField screen = c.getField("guiScreen");
-        if(!((Toggle) settings.get(2)).isActive()) {
+        if(!((Toggle) settings.get(3)).isActive()) {
             if(screen.get(mc) != null) return;
         }
 
         Class<?> p = JClass.getClass("livingBase").get();
         Object object = c.getField("objectMouseOver").get(mc);
         float delay = ((Value) settings.get(0)).getValue();
+        boolean in = ((Toggle) settings.get(2)).isActive();
         if(object == null) return;
         Raytrace ray = new Raytrace(object);
         if(ray.typeOfHit().toString().equals("ENTITY")) {
             if(!isValid(ray.entityHit())) return;
             if(!p.isInstance(ray.entityHit())) return;
             if(!Entity.isLiving(ray.entityHit())) return;
+            if(!in && Entity.isInvisible(ray.entityHit())) return;
             if(!timer.hasTime(delay * 80)) return;
             c.getDecMethod("clickMouse").call(mc);
         }

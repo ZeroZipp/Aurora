@@ -58,6 +58,7 @@ public class Methods extends HashMap<String, String> {
         put("setVelocity", "h");
         put("getViewEntity", "aa");
         put("getEntityName", "h_");
+        put("getLivingHealth", "cd");
         put("getEyeHeight", "by");
         put("getLook", "e");
         put("applyBobbing", "e");

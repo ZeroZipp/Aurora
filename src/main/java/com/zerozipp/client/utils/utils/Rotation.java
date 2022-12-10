@@ -1,8 +1,7 @@
-package com.zerozipp.client.utils;
+package com.zerozipp.client.utils.utils;
 
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.types.Type;
-import com.zerozipp.client.utils.utils.Vector2;
 
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
@@ -14,8 +13,12 @@ public class Rotation {
         this.yaw = yaw;
     }
 
-    public Vector2 add(float pitch, float yaw) {
-        return new Vector2(this.pitch + pitch, this.yaw + yaw);
+    public Rotation add(float pitch, float yaw) {
+        return new Rotation(this.pitch + pitch, this.yaw + yaw);
+    }
+
+    public Rotation add(Rotation rot) {
+        return new Rotation(pitch + rot.pitch, yaw + rot.yaw);
     }
 
     @Override

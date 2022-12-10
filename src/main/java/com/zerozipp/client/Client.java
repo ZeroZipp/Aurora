@@ -1,6 +1,7 @@
 package com.zerozipp.client;
 
 import com.zerozipp.client.utils.Network;
+import com.zerozipp.client.utils.Renderer;
 import com.zerozipp.client.utils.base.Display;
 import com.zerozipp.client.utils.base.Packet;
 import com.zerozipp.client.utils.font.Render;
@@ -70,7 +71,9 @@ public class Client {
     }
 
     public void onRender(float ticks) {
+        Renderer.pushRenderer();
         mods.onRender(ticks);
+        Renderer.popRenderer();
     }
 
     public boolean onEvent(Events event) {

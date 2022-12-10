@@ -8,7 +8,9 @@ import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.font.Render;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.reflect.JClass;
+import com.zerozipp.client.utils.reflect.JMethod;
 import com.zerozipp.client.utils.settings.Active;
+import com.zerozipp.client.utils.settings.Toggle;
 import com.zerozipp.client.utils.settings.Value;
 import com.zerozipp.client.utils.types.Events;
 import com.zerozipp.client.utils.types.Type;
@@ -31,6 +33,8 @@ public class Names extends Module {
         list.add(new Active.Listing("Mob", true));
         settings.add(new Value("Size", 10, 5, 13));
         settings.add(new Active("Entity", list));
+        settings.add(new Toggle("Invisible", true));
+        settings.add(new Toggle("Health", true));
     }
 
     @Override
@@ -49,26 +53,31 @@ public class Names extends Module {
         JClass c = JClass.getClass("minecraft");
         if(font == null) font = Client.getFont(m, 30);
         Object world = c.getField("mcWorld").get(mc);
-        Class<?> p = JClass.getClass("livingBase").get();
+        JClass p = JClass.getClass("livingBase");
+        JMethod gh = p.getMethod("getLivingHealth");
         Object player = c.getMethod("getViewEntity").call(mc);
         Object entities = w.getField("loadedEntityList").get(world);
         ToDoubleFunction<Object> d = ent -> Entity.getDistance(player, ent);
-        float h = (float) e.getMethod("getEyeHeight").call(player);
         ArrayList<Object> entityList = (ArrayList<Object>) entities;
-        Vector3 pos = Entity.getEyes(player, ticks);
+        boolean in = ((Toggle) settings.get(2)).isActive();
+        Vector3 pos = Entity.getPosition(player, ticks);
         entityList.sort(comparingDouble(d));
         Collections.reverse(entityList);
         for(Object entity : entityList) {
             if(!isValid(entity)) continue;
-            if(!p.isInstance(entity)) continue;
             if(entity.equals(player)) continue;
+            if(!p.get().isInstance(entity)) continue;
+            if(!in && Entity.isInvisible(entity)) continue;
             Vector3 eyes = Entity.getEyes(entity, ticks);
-            Vector3 position = eyes.add(0, h + 0.5f, 0);
+            Vector3 position = eyes.add(0, 0.5f, 0);
             position = position.add(-pos.x, -pos.y, -pos.z);
+            int livingHealth = (int) (float) gh.call(entity);
             float size = ((Value) settings.get(0)).getValue();
+            boolean health = ((Toggle) settings.get(3)).isActive();
             String n = (String) e.getMethod("getEntityName").call(entity);
+            if(health) n += (livingHealth <= 0 ? " §c" : " §a") + livingHealth;
             float dist = (float) Entity.getDistance(player, entity) * 0.002f;
-            Renderer.drawNameplate(player, n, position, font, size * 0.001f + dist);
+            Renderer.drawNameplate(player, n, position, font, size * 0.001f + dist, ticks);
         }
     }
 

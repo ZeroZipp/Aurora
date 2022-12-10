@@ -2,7 +2,7 @@ package com.zerozipp.client.mods.combat;
 
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.Entity;
-import com.zerozipp.client.utils.Rotation;
+import com.zerozipp.client.utils.utils.Rotation;
 import com.zerozipp.client.utils.reflect.JField;
 import com.zerozipp.client.utils.settings.Active;
 import com.zerozipp.client.utils.settings.Toggle;
@@ -30,6 +30,7 @@ public class Rotate extends Module {
         settings.add(new Value("Delay", 2, 1, 3));
         settings.add(new Toggle("Cast", true));
         settings.add(new Active("Entity", list));
+        settings.add(new Toggle("Invisible", true));
         settings.add(new Toggle("Screen", false));
     }
 
@@ -39,7 +40,7 @@ public class Rotate extends Module {
         Object mc = Invoker.client.MC();
         JClass c = JClass.getClass("minecraft");
         JField screen = c.getField("guiScreen");
-        if(!((Toggle) settings.get(4)).isActive()) {
+        if(!((Toggle) settings.get(5)).isActive()) {
             if(screen.get(mc) != null) return;
         }
 
@@ -51,6 +52,7 @@ public class Rotate extends Module {
         ToDoubleFunction<Object> d = entity -> Entity.getDistance(player, entity);
         ArrayList<Object> entityList = (ArrayList<Object>) entities;
         float reach = ((Value) settings.get(0)).getValue();
+        boolean in = ((Toggle) settings.get(4)).isActive();
         Vector3 pos = Entity.getEyes(player, 1.0f);
         entityList.sort(comparingDouble(d));
         for(Object entity : entityList) {
@@ -58,6 +60,7 @@ public class Rotate extends Module {
             if(!p.isInstance(entity)) continue;
             if(!Entity.isLiving(entity)) continue;
             if(entity.equals(player)) continue;
+            if(!in && Entity.isInvisible(entity)) continue;
             if(Entity.getDistance(player, entity) < reach) {
                 Rotation rot = Entity.getRot(pos, Entity.getEyes(entity, 1.0f));
                 float dist = (float) Entity.getDistance(player, entity);

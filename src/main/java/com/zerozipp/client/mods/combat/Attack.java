@@ -2,7 +2,9 @@ package com.zerozipp.client.mods.combat;
 
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.Entity;
-import com.zerozipp.client.utils.Rotation;
+import com.zerozipp.client.utils.Renderer;
+import com.zerozipp.client.utils.utils.Color;
+import com.zerozipp.client.utils.utils.Rotation;
 import com.zerozipp.client.utils.base.Rotating;
 import com.zerozipp.client.utils.reflect.JField;
 import com.zerozipp.client.utils.settings.Active;
@@ -26,6 +28,7 @@ import java.util.function.ToDoubleFunction;
 @SuppressWarnings("unchecked")
 public class Attack extends Module {
     private final Timer timer;
+    private Object entity = null;
 
     public Attack(String name, boolean active, Integer key) {
         super(name, active, key);
@@ -40,16 +43,38 @@ public class Attack extends Module {
         settings.add(new Toggle("Cast", true));
         settings.add(new Toggle("Wait", false));
         settings.add(new Active("Entity", list));
+        settings.add(new Toggle("Invisible", true));
         settings.add(new Toggle("Screen", false));
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+        entity = null;
+    }
+
+    @Override
+    public void onRender(float ticks) {
+        super.onRender(ticks);
+        if(entity == null) return;
+        Object mc = Invoker.client.MC();
+        JClass c = JClass.getClass("minecraft");
+        JField player = c.getField("mcPlayer");
+        Vector3 eyes = Entity.getPosition(player.get(mc), ticks);
+        Vector3 pos = Entity.getPosition(entity, ticks);
+        pos = pos.add(-eyes.x, -eyes.y, -eyes.z);
+        Color color = new Color(255, 0, 0, 255);
+        Renderer.drawCircle(pos, 0.8f, color, 1);
     }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
+        this.entity = null;
         Object mc = Invoker.client.MC();
         JClass c = JClass.getClass("minecraft");
         JField screen = c.getField("guiScreen");
-        if(!((Toggle) settings.get(6)).isActive()) {
+        if(!((Toggle) settings.get(7)).isActive()) {
             if(screen.get(mc) != null) return;
         }
 
@@ -64,6 +89,7 @@ public class Attack extends Module {
         ToDoubleFunction<Object> d = entity -> Entity.getDistance(player, entity);
         ArrayList<Object> entityList = (ArrayList<Object>) entities;
         float reach = ((Value) settings.get(1)).getValue();
+        boolean in = ((Toggle) settings.get(6)).isActive();
         Vector3 pos = Entity.getEyes(player, 1.0f);
         entityList.sort(comparingDouble(d));
         for(Object entity : entityList) {
@@ -71,6 +97,7 @@ public class Attack extends Module {
             if(!p.isInstance(entity)) continue;
             if(!Entity.isLiving(entity)) continue;
             if(entity.equals(player)) continue;
+            if(!in && Entity.isInvisible(entity)) continue;
             if(Entity.getDistance(player, entity) < reach) {
                 Rotation rot = Entity.getRot(pos, Entity.getEyes(entity, 1.0f));
                 float dist = (float) Entity.getDistance(player, entity);
@@ -81,6 +108,7 @@ public class Attack extends Module {
                     Invoker.client.network.setRotation(newRot.pitch, newRot.yaw);
                     float delay = ((Value) settings.get(2)).getValue();
                     Invoker.client.network.onUpdate();
+                    this.entity = entity;
                     if(((Toggle) settings.get(4)).isActive()) {
                         JClass el = JClass.getClass("livingBase");
                         JField t = el.getDecField("ticksSwing");

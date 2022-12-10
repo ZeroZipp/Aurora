@@ -6,6 +6,7 @@ import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.reflect.JClass;
 import com.zerozipp.client.utils.reflect.JMethod;
 import com.zerozipp.client.utils.types.Type;
+import com.zerozipp.client.utils.utils.Rotation;
 import com.zerozipp.client.utils.utils.Vector3;
 
 @Aurora(Type.BASE)
@@ -14,16 +15,69 @@ import com.zerozipp.client.utils.utils.Vector3;
         "BooleanMethodIsAlwaysInverted"
 })
 public class Entity {
+    public static Vector3 getViewRot(Object entity, float ticks) {
+        return getVector(entity, getView(entity, ticks));
+    }
+
+    public static Rotation getView(Object entity, float ticks) {
+        JClass ea = JClass.getClass("entityAnimal");
+        Rotation rot = getRotation(entity, ticks);
+        float rotYaw = getYawHead(entity, ticks);
+        boolean e = ea.get().isInstance(entity);
+        if(e) rot = new Rotation(rot.pitch, rotYaw);
+        return rot;
+    }
+
     public static Vector3 getEyes(Object entity, float ticks) {
         JClass c = JClass.getClass("entity");
         JMethod m = c.getMethod("getPositionEyes", float.class);
         return new Vector3(m.call(entity, ticks));
     }
 
+    public static float getYawHead(Object entity, float ticks) {
+        float prevYaw = getPrevYawHead(entity);
+        float yaw = getYawHead(entity);
+        if(ticks != 1.0F) {
+            return prevYaw + (yaw - prevYaw) * ticks;
+        } else return yaw;
+    }
+
+    public static Rotation getRotation(Object entity, float ticks) {
+        Rotation prevRot = getPrevRotation(entity);
+        Rotation rot = getRotation(entity);
+        if(ticks != 1.0F) {
+            float pitch = prevRot.pitch + (rot.pitch - prevRot.pitch) * ticks;
+            float yaw = prevRot.yaw + (rot.yaw - prevRot.yaw) * ticks;
+            return new Rotation(pitch, yaw);
+        } else return rot;
+    }
+
+    public static Vector3 getPosition(Object entity, float ticks) {
+        JClass e = JClass.getClass("entity");
+        JMethod m = e.getMethod("getEyeHeight");
+        float h = (float) m.call(entity);
+        Vector3 pos = getEyes(entity, ticks);
+        return pos.add(0, -h, 0);
+    }
+
+    public static Vector3 getVector(Object entity, Rotation rot) {
+        float f = (float) Math.cos(-rot.yaw * 0.017453292F - (float) Math.PI);
+        float f1 = (float) Math.sin(-rot.yaw * 0.017453292F - (float) Math.PI);
+        float f2 = (float) -Math.cos(-rot.pitch * 0.017453292F);
+        float f3 = (float) Math.sin(-rot.pitch * 0.017453292F);
+        return new Vector3(f1 * f2, f3, f * f2);
+    }
+
     public static Vector3 getLook(Object entity, float ticks) {
         JClass c = JClass.getClass("entity");
         JMethod m = c.getMethod("getLook", float.class);
         return new Vector3(m.call(entity, ticks));
+    }
+
+    public static boolean isInvisible(Object entity) {
+        JClass c = JClass.getClass("entity");
+        JMethod m = c.getMethod("entityInvisible");
+        return (boolean) m.call(entity);
     }
 
     public static Vector3 getPosition(Object entity) {
@@ -125,14 +179,9 @@ public class Entity {
         double d = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
         float yaw = (float)Math.toDegrees(-Math.atan(x/z));
         float pitch = (float)-Math.toDegrees(Math.atan(y/d));
-
         double v = Math.toDegrees(Math.atan(z/x));
-        if(x < 0 && z < 0) {
-            yaw = (float)(90 + v);
-        }else if(x > 0 && z < 0) {
-            yaw = (float)(-90 + v);
-        }
-
+        if(x < 0 && z < 0) yaw = (float)(90 + v);
+        else if(x > 0 && z < 0) yaw = (float)(-90 + v);
         pitch = Math.min(Math.max(pitch, -90.0f), 90.0f);
         return new Rotation(pitch, yaw);
     }

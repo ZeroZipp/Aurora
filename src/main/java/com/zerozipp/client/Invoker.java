@@ -2,7 +2,7 @@ package com.zerozipp.client;
 
 import com.zerozipp.client.utils.Entity;
 import com.zerozipp.client.utils.Injector;
-import com.zerozipp.client.utils.Rotation;
+import com.zerozipp.client.utils.utils.Rotation;
 import com.zerozipp.client.utils.base.Packet;
 import com.zerozipp.client.utils.base.Rotating;
 import com.zerozipp.client.utils.interfaces.Aurora;

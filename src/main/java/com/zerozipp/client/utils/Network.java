@@ -6,6 +6,8 @@ import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.reflect.JClass;
 import com.zerozipp.client.utils.reflect.JMethod;
 import com.zerozipp.client.utils.types.Type;
+import com.zerozipp.client.utils.utils.Rotation;
+
 import java.lang.reflect.Constructor;
 import static com.zerozipp.client.utils.source.Classes.C;
 
