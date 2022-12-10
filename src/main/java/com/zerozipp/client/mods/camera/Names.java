@@ -61,6 +61,7 @@ public class Names extends Module {
         ArrayList<Object> entityList = (ArrayList<Object>) entities;
         boolean in = ((Toggle) settings.get(2)).isActive();
         Vector3 pos = Entity.getPosition(player, ticks);
+        Vector3 pEyes = Entity.getEyes(player, ticks);
         entityList.sort(comparingDouble(d));
         Collections.reverse(entityList);
         for(Object entity : entityList) {
@@ -73,10 +74,10 @@ public class Names extends Module {
             position = position.add(-pos.x, -pos.y, -pos.z);
             int livingHealth = (int) (float) gh.call(entity);
             float size = ((Value) settings.get(0)).getValue();
+            float dist = (float) eyes.distance(pEyes) * 0.002f;
             boolean health = ((Toggle) settings.get(3)).isActive();
             String n = (String) e.getMethod("getEntityName").call(entity);
             if(health) n += (livingHealth <= 0 ? " §c" : " §a") + livingHealth;
-            float dist = (float) Entity.getDistance(player, entity) * 0.002f;
             Renderer.drawNameplate(player, n, position, font, size * 0.001f + dist, ticks);
         }
     }
