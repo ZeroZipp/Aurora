@@ -63,5 +63,15 @@ public class Methods extends HashMap<String, String> {
         put("getLook", "e");
         put("applyBobbing", "e");
         put("walkPlayer", "N");
+        put("rightClickMouse", "aB");
+        put("entitySneaking", "aU");
+        put("getMaterial", "a");
+        put("isReplaceable", "j");
+        put("getBlock", "u");
+        put("sideGetVec", "n");
+        put("getHeldItem", "b");
+        put("stackGetItem", "c");
+        put("getStackInSlot", "a");
+        put("entityMove", "a");
     }
 }

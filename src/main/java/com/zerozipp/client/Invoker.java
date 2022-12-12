@@ -45,6 +45,14 @@ public class Invoker {
         return client.onPacket(packet);
     }
 
+    public static boolean isSneaking(Object player) {
+        JClass ent = JClass.getClass("entity");
+        JMethod m = ent.getMethod("entitySneaking");
+        boolean sneaking = (boolean) m.call(player);
+        if(onEvent(Events.SNEAKING)) return true;
+        return sneaking;
+    }
+
     public static void onMove(Object entity) {
         Object mc = Invoker.client.MC();
         JClass c = JClass.getClass("minecraft");

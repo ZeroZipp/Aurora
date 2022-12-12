@@ -35,16 +35,23 @@ public class Classes extends HashMap<String, String> {
         put("netHandler", "brz");
         put("packet", "ht");
         put("vec3d", "bhe");
+        put("vec3i", "fq");
         put("raytrace", "bhc");
         put("overlay", "biq");
         put("resolution", "bit");
         put("blockPos", "et");
         put("blockState", "awt");
+        put("blockProperties", "aws");
         put("block", "aow");
         put("hand", "ub");
         put("controller", "bsa");
         put("renderLiving", "caa");
         put("timer", "bih");
         put("screenMenu", "blr");
+        put("material", "bcz");
+        put("facing", "fa");
+        put("itemStack", "aip");
+        put("itemBlock", "ahb");
+        put("inventory", "aec");
     }
 }

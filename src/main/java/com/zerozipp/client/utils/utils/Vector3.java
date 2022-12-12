@@ -5,8 +5,6 @@ import com.zerozipp.client.utils.reflect.JClass;
 import com.zerozipp.client.utils.types.Type;
 import java.lang.reflect.Constructor;
 
-import static com.zerozipp.client.utils.source.Classes.C;
-
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
 public class Vector3 {
@@ -18,13 +16,18 @@ public class Vector3 {
         this.z = z;
     }
 
-    public Vector3(Object vec3d) {
-        if(vec3d.getClass().getName().equals(C.get("vec3d"))) {
-            JClass c = JClass.getClass("vec3d");
-            x = (float) (double) c.getDecField("vecX").get(vec3d);
-            y = (float) (double) c.getDecField("vecY").get(vec3d);
-            z = (float) (double) c.getDecField("vecZ").get(vec3d);
-        } else throw new RuntimeException("Not a 'Vector3D'");
+    public Vector3(Object vec3) {
+        JClass vec3d = JClass.getClass("vec3d");
+        JClass vec3i = JClass.getClass("vec3i");
+        if(vec3d.get().isInstance(vec3)) {
+            x = (float) (double) vec3d.getDecField("vecXd").get(vec3);
+            y = (float) (double) vec3d.getDecField("vecYd").get(vec3);
+            z = (float) (double) vec3d.getDecField("vecZd").get(vec3);
+        } else if(vec3i.get().isInstance(vec3)) {
+            x = (float) (int) vec3i.getDecField("vecXi").get(vec3);
+            y = (float) (int) vec3i.getDecField("vecYi").get(vec3);
+            z = (float) (int) vec3i.getDecField("vecZi").get(vec3);
+        } else throw new RuntimeException("Not a 'Vector3'");
     }
 
     public Vector3 add(float x, float y, float z) {
@@ -33,6 +36,13 @@ public class Vector3 {
 
     public Vector3 add(Vector3 look) {
         return new Vector3(x + look.x, y + look.y, z + look.z);
+    }
+
+    public Vector3 round() {
+        float x = Math.round(this.x + 0.5) - 0.5f;
+        float y = Math.round(this.y + 0.5) - 0.5f;
+        float z = Math.round(this.z + 0.5) - 0.5f;
+        return new Vector3(x, y, z);
     }
 
     public double distance(Vector3 vec) {
@@ -46,6 +56,13 @@ public class Vector3 {
         JClass b = JClass.getClass("vec3d");
         Constructor<?> c = b.getConstructor(double.class, double.class, double.class);
         return JClass.getClass("vec3d").newInstance(c, x, y, z);
+    }
+
+    public Object getBlock() {
+        JClass b = JClass.getClass("vec3d");
+        JClass bp = JClass.getClass("blockPos");
+        Constructor<?> c = bp.getConstructor(b.get());
+        return b.newInstance(c, get());
     }
 
     @Override

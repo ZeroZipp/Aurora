@@ -2,8 +2,10 @@ package com.zerozipp.client.utils;
 
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.base.Raytrace;
+import com.zerozipp.client.utils.base.Stack;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.reflect.JClass;
+import com.zerozipp.client.utils.reflect.JField;
 import com.zerozipp.client.utils.reflect.JMethod;
 import com.zerozipp.client.utils.types.Type;
 import com.zerozipp.client.utils.utils.Rotation;
@@ -15,6 +17,38 @@ import com.zerozipp.client.utils.utils.Vector3;
         "BooleanMethodIsAlwaysInverted"
 })
 public class Entity {
+    public static Stack getStackInSlot(Object player, int index) {
+        JClass i = JClass.getClass("inventory");
+        JClass c = JClass.getClass("entityPlayer");
+        JField inv = c.getField("playerInventory");
+        JMethod m = i.getMethod("getStackInSlot", int.class);
+        return new Stack(m.call(inv.get(player), index));
+    }
+
+    public static int getHeldIndex(Object player) {
+        JClass i = JClass.getClass("inventory");
+        JClass c = JClass.getClass("entityPlayer");
+        JField inv = c.getField("playerInventory");
+        JField index = i.getField("currentItem");
+        return (int) index.get(inv.get(player));
+    }
+
+    public static void setHeldIndex(Object player, int index) {
+        JClass i = JClass.getClass("inventory");
+        JClass c = JClass.getClass("entityPlayer");
+        JField inv = c.getField("playerInventory");
+        JField idx = i.getField("currentItem");
+        idx.set(inv.get(player), index);
+    }
+
+    public static Stack getHeldItem(Object player) {
+        JClass hand = JClass.getClass("hand");
+        JClass c = JClass.getClass("livingBase");
+        JMethod m = c.getMethod("getHeldItem", hand.get());
+        JField armMain = hand.getField("armMain");
+        return new Stack(m.call(player, armMain.get(null)));
+    }
+
     public static Vector3 getViewRot(Object entity, float ticks) {
         return getVector(entity, getView(entity, ticks));
     }
@@ -177,12 +211,13 @@ public class Entity {
         double y = p2.y - p1.y;
         double z = p2.z - p1.z;
         double d = Math.sqrt(Math.pow(x, 2) + Math.pow(z, 2));
-        float yaw = (float)Math.toDegrees(-Math.atan(x/z));
-        float pitch = (float)-Math.toDegrees(Math.atan(y/d));
+        float yaw = (float) Math.toDegrees(-Math.atan(x/z));
+        float pitch = (float) -Math.toDegrees(Math.atan(y/d));
         double v = Math.toDegrees(Math.atan(z/x));
-        if(x < 0 && z < 0) yaw = (float)(90 + v);
-        else if(x > 0 && z < 0) yaw = (float)(-90 + v);
+        if(x < 0 && z < 0) yaw = (float) (90 + v);
+        else if(x > 0 && z < 0) yaw = (float) (-90 + v);
         pitch = Math.min(Math.max(pitch, -90.0f), 90.0f);
+        if(Float.isNaN(yaw)) yaw = (float) 0;
         return new Rotation(pitch, yaw);
     }
 

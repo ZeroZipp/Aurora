@@ -67,11 +67,12 @@ public class Attack extends Module {
         super.onUpdate();
         this.entity = null;
         Object mc = Invoker.client.MC();
+        JClass w = JClass.getClass("world");
         JClass c = JClass.getClass("minecraft");
         JField screen = c.getField("guiScreen");
+        Object g = Invoker.client.network.getRotation();
         boolean s = ((Toggle) settings.get(4)).isActive();
-        if(!s && screen.get(mc) != null) return;
-        JClass w = JClass.getClass("world");
+        if((!s && screen.get(mc) != null) || g != null) return;
         JClass r = JClass.getClass("renderer");
         JField f = c.getField("objectMouseOver");
         Object er = c.getField("renderer").get(mc);
@@ -103,7 +104,6 @@ public class Attack extends Module {
                     Rotation last = Entity.getPacketRot(player);
                     Object oldRaytraceHit = f.get(mc);
                     Rotating.pushRotation(player);
-                    Entity.setPrevRotation(player, last);
                     Entity.setRotation(player, last);
                     m.call(er, 1.0F);
                     Rotating.popRotation(player);

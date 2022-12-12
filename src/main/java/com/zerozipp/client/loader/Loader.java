@@ -64,9 +64,11 @@ public class Loader implements IClassTransformer {
     }
 
     private byte[] entity(byte[] bytes) {
+        String name = M.get("entityMove"), p = "(Lvv;DDD)V", params = "(Ljava/lang/Object;)Z";
         bytes = injector.invokeReturn(bytes, M.get("entityInvisible"), "()Z", "INVISIBLE", 0, 0);
         bytes = injector.invokeReturn(bytes, M.get("addVelocity"), "(DDD)V", "VELOCITY", 0);
         bytes = injector.invokeReturn(bytes, M.get("setVelocity"), "(DDD)V", "VELOCITY", 0);
+        bytes = injector.replaceStatic(bytes, name, p, "isSneaking", params, 309);
         return bytes;
     }
 

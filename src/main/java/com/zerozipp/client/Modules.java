@@ -11,31 +11,31 @@ import com.zerozipp.client.utils.types.Category;
 import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.types.Events;
 import com.zerozipp.client.utils.types.Type;
-import org.lwjgl.input.Keyboard;
 import java.util.ArrayList;
 
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
 public class Modules {
     public Modules() {
-        Category.MOVEMENT.modules.add(new Sneak("Sneak", false, Keyboard.KEY_C));
-        Category.MOVEMENT.modules.add(new Flight("Flight", false, Keyboard.KEY_G));
+        Category.MOVEMENT.modules.add(new Sneak("Sneak", false, null));
+        Category.MOVEMENT.modules.add(new Flight("Flight", false, null));
         Category.MOVEMENT.modules.add(new Sprint("Sprint", true, null));
         Category.MOVEMENT.modules.add(new Velocity("Velocity", false, null));
         Category.MOVEMENT.modules.add(new Jump("Jump", false, null));
+        Category.MOVEMENT.modules.add(new Ground("Ground", false, null));
         Category.CAMERA.modules.add(new Camera("Camera", true, null));
         Category.CAMERA.modules.add(new Bright("Bright", true, null));
         Category.CAMERA.modules.add(new Invisible("Invisible", false, null));
+        Category.CAMERA.modules.add(new Tracers("Tracers", false, null));
         Category.CAMERA.modules.add(new Names("Names", true, null));
-        Category.CAMERA.modules.add(new Tracers("Tracers", true, null));
-        Category.COMBAT.modules.add(new Attack("Attack", false, Keyboard.KEY_V));
+        Category.COMBAT.modules.add(new Attack("Attack", false, null));
         Category.COMBAT.modules.add(new Rotate("Rotate", false, null));
         Category.COMBAT.modules.add(new Trigger("Trigger", false, null));
         Category.COMBAT.modules.add(new Assist("Assist", false, null));
         Category.GAME.modules.add(new Place("Place", false, null));
-        Category.GAME.modules.add(new Ground("Ground", false, null));
-        Category.GAME.modules.add(new Blink("Blink", false, Keyboard.KEY_B));
-        Category.GAME.modules.add(new Timer("Timer", false, Keyboard.KEY_X));
+        Category.GAME.modules.add(new Blink("Blink", false, null));
+        Category.GAME.modules.add(new Timer("Timer", false, null));
+        Category.GAME.modules.add(new Bridge("Bridge", false, null));
         Category.SCREEN.modules.add(new Name("Name", true, null));
         Category.SCREEN.modules.add(new Keypad("Keypad", true, null));
         Category.SCREEN.modules.add(new Position("Position", true, null));

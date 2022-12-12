@@ -31,9 +31,12 @@ public class Fields extends HashMap<String, String> {
         put("rotationPitch", "w");
         put("rotationYaw", "v");
         put("connection", "d");
-        put("vecX", "b");
-        put("vecY", "c");
-        put("vecZ", "d");
+        put("vecXd", "b");
+        put("vecYd", "c");
+        put("vecZd", "d");
+        put("vecXi", "a");
+        put("vecYi", "b");
+        put("vecZi", "c");
         put("rBlockPos", "e");
         put("rTypeOfHit", "a");
         put("rSideHit", "b");
@@ -69,5 +72,7 @@ public class Fields extends HashMap<String, String> {
         put("thirdPersonView", "aw");
         put("reportedPitch", "ci");
         put("reportedYaw", "ch");
+        put("playerInventory", "bv");
+        put("currentItem", "d");
     }
 }
