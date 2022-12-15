@@ -6,6 +6,7 @@ import com.zerozipp.client.mods.game.*;
 import com.zerozipp.client.mods.movement.*;
 import com.zerozipp.client.mods.screen.*;
 import com.zerozipp.client.utils.base.Packet;
+import com.zerozipp.client.utils.base.Setting;
 import com.zerozipp.client.utils.interfaces.Aurora;
 import com.zerozipp.client.utils.types.Category;
 import com.zerozipp.client.utils.base.Module;
@@ -46,6 +47,17 @@ public class Modules {
             ArrayList<Module> modules = category.modules;
             for(Module mod : modules) {
                 if(mod.isActive()) mod.onUpdate();
+            }
+        }
+    }
+
+    public void onSettings() {
+        for(Category category : Category.values()) {
+            ArrayList<Module> modules = category.modules;
+            for(Module mod : modules) {
+                for(Setting s : mod.settings) {
+                    s.runTick();
+                }
             }
         }
     }

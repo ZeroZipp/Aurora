@@ -15,6 +15,13 @@ public class Active extends Setting {
         this.listings = listings;
     }
 
+    @Override
+    public float getHeight() {
+        float size = super.getHeight();
+        for(Listing l : listings) size += l.getHeight();
+        return size;
+    }
+
     public static class Listing {
         public final String name;
         private boolean active;
@@ -30,6 +37,10 @@ public class Active extends Setting {
 
         public boolean isActive() {
             return active;
+        }
+
+        public float getHeight() {
+            return 11;
         }
     }
 }

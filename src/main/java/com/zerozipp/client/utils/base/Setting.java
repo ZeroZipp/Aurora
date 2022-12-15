@@ -11,4 +11,10 @@ public class Setting {
     public Setting(String name) {
         this.name = name;
     }
+
+    public float getHeight() {
+        return 11;
+    }
+
+    public void runTick() {}
 }

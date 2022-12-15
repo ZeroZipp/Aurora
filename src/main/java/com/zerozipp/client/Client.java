@@ -63,6 +63,10 @@ public class Client {
         }
     }
 
+    public void onSettings() {
+        mods.onSettings();
+    }
+
     public void onOverlay() {
         Display.pushScreen();
         mods.onOverlay();

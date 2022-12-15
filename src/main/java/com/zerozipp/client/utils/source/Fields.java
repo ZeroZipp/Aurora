@@ -74,5 +74,7 @@ public class Fields extends HashMap<String, String> {
         put("reportedYaw", "ch");
         put("playerInventory", "bv");
         put("currentItem", "d");
+        put("displayWidth", "d");
+        put("displayHeight", "e");
     }
 }

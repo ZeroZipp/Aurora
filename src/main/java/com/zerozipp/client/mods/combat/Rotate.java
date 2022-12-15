@@ -28,7 +28,7 @@ public class Rotate extends Module {
         list.add(new Active.Listing("Mob", true));
         settings.add(new Value("Reach", 5, 2, 6));
         settings.add(new Value("Delay", 2, 1, 3));
-        settings.add(new Toggle("Raytrace", true));
+        settings.add(new Toggle("Cast", true));
         settings.add(new Active("Entity", list));
         settings.add(new Toggle("Invisible", true));
         settings.add(new Toggle("Screen", false));
@@ -63,7 +63,7 @@ public class Rotate extends Module {
                 Rotation rot = Entity.getRot(pos, Entity.getEyes(entity, 1.0f));
                 float dist = (float) Entity.getDistance(player, entity);
                 Raytrace trace = Entity.getCast(player, rot, dist);
-                if((trace != null && trace.typeOfHit().toString().equals("MISS"))) {
+                if(trace != null && trace.typeOfHit().toString().equals("MISS")) {
                     this.onRotate(player, rot);
                 } else if(!((Toggle) settings.get(2)).isActive()) {
                     this.onRotate(player, rot);

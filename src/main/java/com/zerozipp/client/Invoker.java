@@ -33,6 +33,10 @@ public class Invoker {
         client.onUpdate();
     }
 
+    public static void onSettings() {
+        client.onSettings();
+    }
+
     public static void onOverlay() {
         client.onOverlay();
     }

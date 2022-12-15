@@ -29,4 +29,10 @@ public class Resolution {
         JMethod get = res.getMethod("getScaledWidth");
         return (Integer) get.call(obj);
     }
+
+    public float getFactor() {
+        JClass res = JClass.getClass("resolution");
+        JMethod get = res.getMethod("getScaleFactor");
+        return (Integer) get.call(obj);
+    }
 }

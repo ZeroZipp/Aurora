@@ -8,7 +8,7 @@ import com.zerozipp.client.utils.types.Type;
 @SuppressWarnings("unused")
 public class Value extends Setting {
     public final float min, max;
-    private float value;
+    private float value, last;
 
     public Value(String name, float value, float min, float max) {
         super(name);
@@ -17,11 +17,25 @@ public class Value extends Setting {
         setValue(value);
     }
 
+    @Override
+    public float getHeight() {
+        return 15;
+    }
+
     public float getValue() {
         return value;
     }
 
     public void setValue(float value) {
         this.value = Math.min(Math.max(value, min), max);
+    }
+
+    @Override
+    public void runTick() {
+        this.last = this.value;
+    }
+
+    public float getLast() {
+        return last;
     }
 }

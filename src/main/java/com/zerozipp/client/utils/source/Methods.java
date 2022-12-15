@@ -73,5 +73,7 @@ public class Methods extends HashMap<String, String> {
         put("stackGetItem", "c");
         put("getStackInSlot", "a");
         put("entityMove", "a");
+        put("getScaleFactor", "e");
+        put("updateAndRender", "a");
     }
 }

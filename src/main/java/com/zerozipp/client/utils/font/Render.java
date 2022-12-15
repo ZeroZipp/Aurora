@@ -182,6 +182,10 @@ public class Render {
         return regularGlyphPage.getMaxFontHeight() / 2;
     }
 
+    public float floatFontHeight() {
+        return (float) regularGlyphPage.getMaxFontHeight() / 2;
+    }
+
     public int getStringWidth(String text) {
         return (int) stringWidth(text) / 2;
     }

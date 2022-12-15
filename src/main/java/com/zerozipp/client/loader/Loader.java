@@ -37,6 +37,7 @@ public class Loader implements IClassTransformer {
         bytes = injector.invokeEvent(bytes, M.get("renderHand"), "(FI)V", "OFFSET", 0);
         bytes = injector.invokeParam(bytes, M.get("getFov"), "(FZ)F", "CAMERA", 2, 1, 0);
         bytes = injector.invokeParam(bytes, M.get("updateLightmap"), "(F)V", "BRIGHT", 17, 10F, 426);
+        bytes = injector.invokeStatic(bytes, M.get("updateAndRender"), "(FJ)V", "onSettings", "()V", 619);
         bytes = injector.invokeStatic(bytes, M.get("renderWorld"), "(FJ)V", "onRender", "()V", 109);
         bytes = injector.invokeReturn(bytes, M.get("applyBobbing"), "(F)V", "BOBBLING", 0);
         bytes = injector.invokeReturn(bytes, M.get("hurtCam"), "(F)V", "HURT", 0);
