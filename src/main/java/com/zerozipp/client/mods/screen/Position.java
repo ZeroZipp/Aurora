@@ -15,6 +15,7 @@ import com.zerozipp.client.utils.utils.Vector3;
 
 @Aurora(Type.MODULE)
 public class Position extends Module {
+    public static final Color cText = new Color(255, 255, 255, 255);
     private Render font = null;
     private final Vector2 pos;
 
@@ -26,9 +27,9 @@ public class Position extends Module {
     @Override
     public void onOverlay() {
         super.onOverlay();
+        int color = cText.getColor();
         String m = "font/medium.ttf";
         Object mc = Invoker.client.MC();
-        int color = Color.text.getColor();
         Resolution res = new Resolution(mc);
         JClass c = JClass.getClass("minecraft");
         if(font == null) font = Client.getFont(m, 16);

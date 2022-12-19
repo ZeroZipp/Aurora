@@ -40,6 +40,7 @@ public class Modules {
         Category.SCREEN.modules.add(new Name("Name", true, null));
         Category.SCREEN.modules.add(new Keypad("Keypad", true, null));
         Category.SCREEN.modules.add(new Position("Position", true, null));
+        Category.SCREEN.modules.add(new Mods("Mods", true, null));
     }
 
     public void onUpdate() {

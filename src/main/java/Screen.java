@@ -15,6 +15,7 @@ import static com.zerozipp.client.utils.base.Display.*;
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
 public class Screen extends blk {
+    public static final Color cBackground = new Color(0, 0, 0, 80);
     private final ArrayList<Window> windows;
     private Render font = null;
 
@@ -38,7 +39,7 @@ public class Screen extends blk {
         pushScreen();
         String f = "font/medium.ttf";
         if(font == null) font = Client.getFont(f, 16);
-        drawRect(0, 0, l, m, Color.background.getColor());
+        drawRect(0, 0, l, m, cBackground.getColor());
         for(Window win : windows) win.draw(font, l, m, mouseX, mouseY, ticks);
         popScreen();
     }

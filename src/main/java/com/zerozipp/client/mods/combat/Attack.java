@@ -2,8 +2,6 @@ package com.zerozipp.client.mods.combat;
 
 import com.zerozipp.client.Invoker;
 import com.zerozipp.client.utils.Entity;
-import com.zerozipp.client.utils.Renderer;
-import com.zerozipp.client.utils.utils.Color;
 import com.zerozipp.client.utils.utils.Rotation;
 import com.zerozipp.client.utils.base.Rotating;
 import com.zerozipp.client.utils.reflect.JField;
@@ -26,7 +24,6 @@ import java.util.function.ToDoubleFunction;
 @SuppressWarnings("unchecked")
 public class Attack extends Module {
     private final Timer timer;
-    private Object entity = null;
 
     public Attack(String name, boolean active, Integer key) {
         super(name, active, key);
@@ -43,29 +40,8 @@ public class Attack extends Module {
     }
 
     @Override
-    public void onDisable() {
-        super.onDisable();
-        entity = null;
-    }
-
-    @Override
-    public void onRender(float ticks) {
-        super.onRender(ticks);
-        if(entity == null) return;
-        Object mc = Invoker.client.MC();
-        JClass c = JClass.getClass("minecraft");
-        JField player = c.getField("mcPlayer");
-        Vector3 eyes = Entity.getPosition(player.get(mc), ticks);
-        Vector3 pos = Entity.getPosition(entity, ticks);
-        pos = pos.add(-eyes.x, -eyes.y, -eyes.z);
-        Color color = new Color(255, 0, 0, 255);
-        Renderer.drawCircle(pos, 0.8f, color, 1);
-    }
-
-    @Override
     public void onUpdate() {
         super.onUpdate();
-        this.entity = null;
         Object mc = Invoker.client.MC();
         JClass w = JClass.getClass("world");
         JClass c = JClass.getClass("minecraft");
@@ -110,7 +86,6 @@ public class Attack extends Module {
                     if(onAttack() && hasTime()) {
                         clickMouse.call(mc);
                     } f.set(mc, oldRaytraceHit);
-                    this.entity = entity;
                     break;
                 }
             }
