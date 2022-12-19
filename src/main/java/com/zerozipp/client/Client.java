@@ -41,7 +41,7 @@ public class Client {
         try { font = Font.createFont(Font.TRUETYPE_FONT, getResource(path)); }
         catch(Exception e) { e.printStackTrace(); }
         font = font.deriveFont(Font.PLAIN, (float) size);
-        return Render.create(font, true, true);
+        return Render.create(font, true, false);
     }
 
     public static InputStream getResource(String path) {

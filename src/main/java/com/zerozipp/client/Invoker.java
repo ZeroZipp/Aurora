@@ -99,15 +99,14 @@ public class Invoker {
         Class<?> p = JClass.getClass("livingBase").get();
         if(player != null && player.equals(entity)) {
             Rotating.pushRotation(entity);
+            Rotation rot = client.network.getRotation();
             Rotation prev = client.network.getPrevious();
-            if(client.network.getRotation() != null) {
-                Rotation rot = client.network.getRotation();
-                if(prev == null) prev = Entity.getPrevRotation(entity);
-                Entity.setYawOffset(entity, rot.yaw, prev.yaw);
-                Entity.setYawHead(entity, rot.yaw, prev.yaw);
-                Entity.setPrevRotation(entity, prev);
-                Entity.setRotation(entity, rot);
-            }
+            if(prev == null) prev = Entity.getPrevRotation(entity);
+            if(rot == null) rot = Entity.getRotation(entity);
+            Entity.setYawOffset(entity, rot.yaw, prev.yaw);
+            Entity.setYawHead(entity, rot.yaw, prev.yaw);
+            Entity.setPrevRotation(entity, prev);
+            Entity.setRotation(entity, rot);
         }
     }
 

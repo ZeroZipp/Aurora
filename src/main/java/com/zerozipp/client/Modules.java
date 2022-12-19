@@ -38,7 +38,6 @@ public class Modules {
         Category.GAME.modules.add(new Timer("Timer", false, null));
         Category.GAME.modules.add(new Bridge("Bridge", false, null));
         Category.SCREEN.modules.add(new Name("Name", true, null));
-        Category.SCREEN.modules.add(new Keypad("Keypad", true, null));
         Category.SCREEN.modules.add(new Position("Position", true, null));
         Category.SCREEN.modules.add(new Mods("Mods", true, null));
     }

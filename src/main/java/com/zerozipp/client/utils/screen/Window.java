@@ -28,9 +28,9 @@ public class Window {
     public static final float width = 75;
     public static final float height = 11;
     public static final float handle = 16;
-    public static final float size = 90;
-    public final Category category;
+    public static final float size = 95;
     private float x, y, scroll, last;
+    public final Category category;
     private Keybind keybind;
 
     public Window(Category category, float x, float y) {
@@ -44,7 +44,7 @@ public class Window {
 
     public void draw(Render font, float w, float h, int x, int y, float ticks) {
         final float width = w / 2 + this.x, height = h / 12 + this.y;
-        if(!category.isClosed()) drawModules(font, width, height, ticks);
+        drawModules(font, width, height, x, y, ticks);
         drawHandle(font, width, height, ticks);
         this.last = this.scroll;
     }
@@ -56,7 +56,7 @@ public class Window {
         font.drawString(category.name, x - w + 6, y - f, text, false);
     }
 
-    private void drawModules(Render font, float x, float y, float ticks) {
+    private void drawModules(Render font, float x, float y, float mX, float mY, float ticks) {
         float w = width / 2, h = height / 2, s = handle / 2, r = 1, index = 0;
         int color = cModule.getColor(), text = cText.getColor(), gray = cGray.getColor();
         Display.drawPinRect(x - w, y - s, x + w, y + s + size, r, color);
@@ -74,7 +74,7 @@ public class Window {
         GL11.glTranslated(0, pos, 0);
         GL11.glScissor(sx, sy, sw, sh);
         for(Module m : category.modules) {
-            index += drawModule(m, index, font, x, y, ticks);
+            index += drawModule(m, index, font, x, y, mX, mY, ticks);
             boolean o = m.isOpened() && !m.settings.isEmpty();
             float start = y + s + 3 + index;
             int border = cBorder.getColor();
@@ -90,13 +90,13 @@ public class Window {
         Display.drawRect(rl, rt, rr, rb, gray, 0);
     }
 
-    private float drawModule(Module module, float index, Render font, float x, float y, float ticks) {
-        boolean isKey = module.keybind.getKey() != null, a = module.keybind.equals(keybind);
+    private float drawModule(Module module, float index, Render font, float x, float y, float mX, float mY, float ticks) {
+        boolean isKey = module.keybind.getKey() != null, a = module.keybind.equals(keybind), v = module.isActive();
         String key = a ? "ANY" : isKey ? Keyboard.getKeyName(module.keybind.getKey()) : "NO";
         final float w = width / 2, h = height / 2, s = handle / 2;
         final float f = font.floatFontHeight() / 2, p = y + s + 3 + index;
         int c = cKey.addColor(new Color(0, 0, 0, -50)).getColor(), t = cKey.getColor();
-        if(module.isActive()) Display.drawRect(x - w, p, x + w, p + height, cActive.getColor());
+        if(v) Display.drawRect(x - w, p, x + w, p + height, cActive.getColor());
         font.drawString(module.name, x - w + 5, p + h - f, cText.getColor(), false);
         if(module.keybind.equals(keybind)) Display.verticalRect(x + w / 2, p, x + w, p + height, c, t);
         font.drawString(key, x + w - 5 - font.getStringWidth(key), p + h - f, cText.getColor(), false);
@@ -159,30 +159,25 @@ public class Window {
         float ws = Window.width / 2, hs = handle / 2;
         if(keybind != null) keybind = null;
         if(x > width - ws && x < width + ws) {
-            if(y > height - hs && y < height + hs) {
-                boolean closed = category.isClosed();
-                if(button == 1) category.setOpened(closed);
-            } else if(!category.isClosed()) {
-                float index = scroll + hs + 3;
-                float hx = Window.height;
-                if(y > height + hs && y < height + hs + size) {
-                    for(Module mod : category.modules) {
-                        if(y > height + index && y < height + index + hx) {
-                            boolean isKey = !mod.keybind.equals(keybind);
-                            if(button == 0) mod.setActive(!mod.isActive());
-                            if(button == 1) mod.setOpened(!mod.isOpened());
-                            if(button == 2 && isKey) keybind = mod.keybind;
-                        } index += Window.height;
-                        if(mod.isOpened() && !mod.settings.isEmpty()) {
-                            for(Setting s : mod.settings) {
-                                if(y > height + index && y < height + index + s.getHeight()) {
-                                    float pos = (x - (width - ws)) / Window.width * 100;
-                                    if(s instanceof Active) {
-                                        Active a = (Active) s;
-                                        onActive(a, index, h, y, button);
-                                    } onSetting(s, button, pos);
-                                } index += s.getHeight();
-                            }
+            float index = scroll + hs + 3;
+            float hx = Window.height;
+            if(y > height + hs && y < height + hs + size) {
+                for(Module mod : category.modules) {
+                    if(y > height + index && y < height + index + hx) {
+                        boolean isKey = !mod.keybind.equals(keybind);
+                        if(button == 0) mod.setActive(!mod.isActive());
+                        if(button == 1) mod.setOpened(!mod.isOpened());
+                        if(button == 2 && isKey) keybind = mod.keybind;
+                    } index += Window.height;
+                    if(mod.isOpened() && !mod.settings.isEmpty()) {
+                        for(Setting s : mod.settings) {
+                            if(y > height + index && y < height + index + s.getHeight()) {
+                                float pos = (x - (width - ws)) / Window.width * 100;
+                                if(s instanceof Active) {
+                                    Active a = (Active) s;
+                                    onActive(a, index, h, y, button);
+                                } onSetting(s, button, pos);
+                            } index += s.getHeight();
                         }
                     }
                 }
@@ -204,18 +199,16 @@ public class Window {
         float width = w / 2 + this.x, height = h / 12 + this.y;
         float ws = Window.width / 2, hs = handle / 2;
         if(x > width - ws && x < width + ws) {
-            if(!category.isClosed()) {
-                float index = scroll + hs + 3;
-                if(y > height + hs && y < height + hs + size) {
-                    for(Module mod : category.modules) {
-                        index += Window.height;
-                        if(mod.isOpened() && !mod.settings.isEmpty()) {
-                            for(Setting s : mod.settings) {
-                                if(y > height + index && y < height + index + s.getHeight()) {
-                                    float pos = (x - (width - ws)) / Window.width * 100;
-                                    if(s instanceof Value) onSetting(s, button, pos);
-                                } index += s.getHeight();
-                            }
+            float index = scroll + hs + 3;
+            if(y > height + hs && y < height + hs + size) {
+                for(Module mod : category.modules) {
+                    index += Window.height;
+                    if(mod.isOpened() && !mod.settings.isEmpty()) {
+                        for(Setting s : mod.settings) {
+                            if(y > height + index && y < height + index + s.getHeight()) {
+                                float pos = (x - (width - ws)) / Window.width * 100;
+                                if(s instanceof Value) onSetting(s, button, pos);
+                            } index += s.getHeight();
                         }
                     }
                 }
@@ -242,7 +235,6 @@ public class Window {
     public void onMouseWheel(float mouse, float x, float y, float w, float h) {
         final float width = w / 2 + this.x, height = h / 12 + this.y;
         final float ws = Window.width / 2, hs = handle / 2;
-        if(category.isClosed()) return;
         if(x > width - ws && x < width + ws) {
             if(y > height + hs && y < height + hs + size) {
                 this.scroll += mouse * 2;
