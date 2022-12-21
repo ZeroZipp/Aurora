@@ -18,28 +18,27 @@ import java.util.ArrayList;
 @SuppressWarnings("unused")
 public class Modules {
     public Modules() {
-        Category.MOVEMENT.modules.add(new Sneak("Sneak", false, null));
+        Category.MOVEMENT.modules.add(new Blink("Blink", false, null));
         Category.MOVEMENT.modules.add(new Flight("Flight", false, null));
-        Category.MOVEMENT.modules.add(new Sprint("Sprint", true, null));
-        Category.MOVEMENT.modules.add(new Velocity("Velocity", false, null));
-        Category.MOVEMENT.modules.add(new Jump("Jump", false, null));
         Category.MOVEMENT.modules.add(new Ground("Ground", false, null));
-        Category.CAMERA.modules.add(new Camera("Camera", true, null));
+        Category.MOVEMENT.modules.add(new Jump("Jump", false, null));
+        Category.MOVEMENT.modules.add(new Sneak("Sneak", false, null));
+        Category.MOVEMENT.modules.add(new Sprint("Sprint", true, null));
         Category.CAMERA.modules.add(new Bright("Bright", true, null));
+        Category.CAMERA.modules.add(new Camera("Camera", true, null));
         Category.CAMERA.modules.add(new Invisible("Invisible", false, null));
-        Category.CAMERA.modules.add(new Tracers("Tracers", false, null));
         Category.CAMERA.modules.add(new Names("Names", true, null));
-        Category.COMBAT.modules.add(new Attack("Attack", false, null));
-        Category.COMBAT.modules.add(new Rotate("Rotate", false, null));
-        Category.COMBAT.modules.add(new Trigger("Trigger", false, null));
-        Category.COMBAT.modules.add(new Assist("Assist", false, null));
-        Category.GAME.modules.add(new Place("Place", false, null));
-        Category.GAME.modules.add(new Blink("Blink", false, null));
-        Category.GAME.modules.add(new Timer("Timer", false, null));
+        Category.CAMERA.modules.add(new Tracers("Tracers", false, null));
         Category.GAME.modules.add(new Bridge("Bridge", false, null));
+        Category.GAME.modules.add(new Destroy("Destroy", false, null));
+        Category.GAME.modules.add(new Stealer("Stealer", false, null));
+        Category.GAME.modules.add(new Timer("Timer", false, null));
+        Category.COMBAT.modules.add(new Armor("Armor", false, null));
+        Category.COMBAT.modules.add(new Attack("Attack", false, null));
+        Category.COMBAT.modules.add(new Velocity("Velocity", false, null));
+        Category.SCREEN.modules.add(new Mods("Mods", true, null));
         Category.SCREEN.modules.add(new Name("Name", true, null));
         Category.SCREEN.modules.add(new Position("Position", true, null));
-        Category.SCREEN.modules.add(new Mods("Mods", true, null));
     }
 
     public void onUpdate() {
@@ -74,11 +73,11 @@ public class Modules {
         }
     }
 
-    public void onOverlay() {
+    public void onOverlay(float ticks) {
         for(Category category : Category.values()) {
             ArrayList<Module> modules = category.modules;
             for(Module mod : modules) {
-                if(mod.isActive()) mod.onOverlay();
+                if(mod.isActive()) mod.onOverlay(ticks);
             }
         }
     }

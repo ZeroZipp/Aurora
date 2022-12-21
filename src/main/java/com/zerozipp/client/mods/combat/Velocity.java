@@ -1,4 +1,4 @@
-package com.zerozipp.client.mods.movement;
+package com.zerozipp.client.mods.combat;
 
 import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.interfaces.Aurora;

@@ -41,7 +41,8 @@ public class Bridge extends Module {
         Vector3 eyes = Entity.getEyes(player, 1);
         Vector3 down = pos.add(0, -1, 0);
         Rotation rot = Entity.getRot(eyes, down);
-        Invoker.client.network.setRotation(rot.pitch, rot.yaw);
+        Rotation set = Entity.getRotation(player, rot);
+        Invoker.client.network.setRotation(set.pitch, set.yaw);
         if(World.isReplaceable(world, down)) {
             if(!canPlace(world, player, down)) {
                 for(Facing face : Facing.values()) {
@@ -108,7 +109,8 @@ public class Bridge extends Module {
         float x = o.x / 2, y = o.y / 2, z = o.z / 2;
         Vector3 eyes = Entity.getEyes(player, 1);
         Rotation rot = Entity.getRot(eyes, pos.add(x, y, z));
-        Invoker.client.network.setRotation(rot.pitch, rot.yaw);
+        Rotation set = Entity.getRotation(player, rot);
+        Invoker.client.network.setRotation(set.pitch, set.yaw);
     }
 
     private boolean canPlace(Object block, Vector3 side) {

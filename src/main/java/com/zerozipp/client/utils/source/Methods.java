@@ -75,5 +75,13 @@ public class Methods extends HashMap<String, String> {
         put("entityMove", "a");
         put("getScaleFactor", "e");
         put("updateAndRender", "a");
+        put("swingArm", "a");
+        put("getStack", "d");
+        put("stackEmpty", "b");
+        put("windowClick", "a");
+        put("hasItemInSlot", "a");
+        put("tileDistanceSq", "a");
+        put("getTilePos", "w");
+        put("sendClickBlock", "b");
     }
 }

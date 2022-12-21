@@ -132,6 +132,26 @@ public class Entity {
         return pos.distance(pos2);
     }
 
+    public static double getTileDistance(Object entity, Object tile) {
+        JClass c = JClass.getClass("tileEntity");
+        Vector3 pos = Entity.getEyes(entity, 1.0f);
+        Vector3 pos2 = Entity.getTilePos(tile);
+        return pos.distance(pos2);
+    }
+
+    public static Vector3 getTilePos(Object tile) {
+        JClass c = JClass.getClass("tileEntity");
+        JMethod m = c.getMethod("getTilePos");
+        Vector3 pos = new Vector3(m.call(tile));
+        return pos.add(0.5f, 0.5f, 0.5f);
+    }
+
+    public static Object getTileBlock(Object tile) {
+        JClass c = JClass.getClass("tileEntity");
+        JMethod m = c.getMethod("getTilePos");
+        return m.call(tile);
+    }
+
     public static Raytrace getCast(Object entity, Rotation rot, float reach) {
         Class<?> bhe = JClass.getClass("vec3d").get();
         JClass c = JClass.getClass("world");
@@ -206,6 +226,22 @@ public class Entity {
         return new Rotation((float) pitch, (float) yaw);
     }
 
+    public static Vector3 getMotion(Object entity) {
+        Object mc = Invoker.client.MC();
+        JClass c = JClass.getClass("entity");
+        JField motionX = c.getField("motionX");
+        JField motionY = c.getField("motionY");
+        JField motionZ = c.getField("motionZ");
+        JClass minecraft = JClass.getClass("minecraft");
+        JField rotationYaw = c.getField("rotationYaw");
+        Object player = minecraft.getField("mcPlayer").get(mc);
+        JField screen = minecraft.getField("guiScreen");
+        float x = (float) (double) motionX.get(player);
+        float y = (float) (double) motionY.get(player);
+        float z = (float) (double) motionZ.get(player);
+        return new Vector3(x, y, z);
+    }
+
     public static Rotation getRot(Vector3 p1, Vector3 p2) {
         double x = p2.x - p1.x;
         double y = p2.y - p1.y;
@@ -217,8 +253,21 @@ public class Entity {
         if(x < 0 && z < 0) yaw = (float) (90 + v);
         else if(x > 0 && z < 0) yaw = (float) (-90 + v);
         pitch = Math.min(Math.max(pitch, -90.0f), 90.0f);
-        if(Float.isNaN(yaw)) yaw = (float) 0;
+        if(Float.isNaN(pitch)) pitch = 0;
+        if(Float.isNaN(yaw)) yaw = 0;
         return new Rotation(pitch, yaw);
+    }
+
+    public static Rotation getRotation(Object entity, Rotation rot) {
+        JClass e = JClass.getClass("entity");
+        float yaw = (float) e.getField("rotationYaw").get(entity);
+        float pitch = (float) e.getField("rotationPitch").get(entity);
+        float cPitch = rot.pitch - pitch;
+        float cYaw = yaw % 360.0F;
+        float delta = rot.yaw - cYaw;
+        if(180.0F < delta) delta -= 360.0F;
+        else if(-180.0F > delta) delta += 360.0F;
+        return new Rotation(pitch + cPitch, yaw + delta);
     }
 
     public static Rotation getPacketRot(Object player) {

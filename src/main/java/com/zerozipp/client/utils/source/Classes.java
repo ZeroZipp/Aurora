@@ -53,5 +53,17 @@ public class Classes extends HashMap<String, String> {
         put("itemStack", "aip");
         put("itemBlock", "ahb");
         put("inventory", "aec");
+        put("guiContainer", "bmg");
+        put("guiChest", "bmm");
+        put("guiShulker", "bna");
+        put("container", "afr");
+        put("slot", "agr");
+        put("clickType", "afw");
+        put("itemArmor", "agv");
+        put("equipmentSlot", "vl");
+        put("items", "air");
+        put("tileEntity", "avj");
+        put("tileEntityBed", "avi");
+        put("tileEntityChest", "avl");
     }
 }

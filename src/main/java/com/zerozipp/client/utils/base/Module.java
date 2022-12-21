@@ -48,7 +48,7 @@ public class Module {
 
     public void onDisable() {}
 
-    public void onOverlay() {}
+    public void onOverlay(float ticks) {}
 
     public boolean onEvent(Events event) {
         return false;

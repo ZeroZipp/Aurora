@@ -38,7 +38,7 @@ public class Loader implements IClassTransformer {
         bytes = injector.invokeParam(bytes, M.get("getFov"), "(FZ)F", "CAMERA", 2, 1, 0);
         bytes = injector.invokeParam(bytes, M.get("updateLightmap"), "(F)V", "BRIGHT", 17, 10F, 426);
         bytes = injector.invokeStatic(bytes, M.get("updateAndRender"), "(FJ)V", "onSettings", "()V", 619);
-        bytes = injector.invokeStatic(bytes, M.get("renderWorld"), "(FJ)V", "onRender", "()V", 109);
+        bytes = injector.invokeFloat(bytes, M.get("renderWorld"), "(FJ)V", "onRender", "(F)V", 1, 109);
         bytes = injector.invokeReturn(bytes, M.get("applyBobbing"), "(F)V", "BOBBLING", 0);
         bytes = injector.invokeReturn(bytes, M.get("hurtCam"), "(F)V", "HURT", 0);
         return bytes;
@@ -60,7 +60,7 @@ public class Loader implements IClassTransformer {
 
     private byte[] overlay(byte[] bytes) {
         String name = M.get("renderOverlay"), invoke = "onOverlay";
-        bytes = injector.invokeStatic(bytes, name, "(F)V", invoke, "()V", 918);
+        bytes = injector.invokeFloat(bytes, name, "(F)V", invoke, "(F)V", 1, 918);
         return bytes;
     }
 

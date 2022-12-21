@@ -37,8 +37,8 @@ public class Invoker {
         client.onSettings();
     }
 
-    public static void onOverlay() {
-        client.onOverlay();
+    public static void onOverlay(float ticks) {
+        client.onOverlay(ticks);
     }
 
     public static boolean onEvent(Events event) {
@@ -77,19 +77,15 @@ public class Invoker {
         }
     }
 
-    public static void onRender() {
+    public static void onRender(float ticks) {
         Object mc = client.MC();
-        JClass c = JClass.getClass("timer");
+        Class<?> f = float.class, i = int.class;
         JClass renderer = JClass.getClass("renderer");
         JClass minecraft = JClass.getClass("minecraft");
-        Object timer = minecraft.getDecField("gameTimer").get(mc);
-        boolean pause = (boolean) minecraft.getDecField("isGamePaused").get(mc);
-        JMethod setup = renderer.getDecMethod("setupCamera", float.class, int.class);
-        float pauseTicks = (float) minecraft.getDecField("renderTicksPaused").get(mc);
-        float ticks = (float) c.getDecField("timerTicks").get(timer);
+        JMethod setup = renderer.getDecMethod("setupCamera", f, i);
         Object r = minecraft.getDecField("renderer").get(mc);
-        setup.call(r, pause ? pauseTicks : ticks, 2);
-        client.onRender(pause ? pauseTicks : ticks);
+        setup.call(r, ticks, 2);
+        client.onRender(ticks);
     }
 
     public static void onRender(Object entity) {

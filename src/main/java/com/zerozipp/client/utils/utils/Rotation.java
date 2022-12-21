@@ -21,6 +21,12 @@ public class Rotation {
         return new Rotation(pitch + rot.pitch, yaw + rot.yaw);
     }
 
+    public double distance(Rotation vec) {
+        double x = vec.yaw - this.yaw;
+        double y = vec.pitch - this.pitch;
+        return Math.sqrt(y * y + x * x);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == null) return false;

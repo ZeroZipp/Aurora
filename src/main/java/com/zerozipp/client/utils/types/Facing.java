@@ -6,12 +6,12 @@ import com.zerozipp.client.utils.utils.Vector3;
 @Aurora(Type.BASE)
 @SuppressWarnings("unused")
 public enum Facing {
-    DOWN(0, -1, 0),
-    UP(0, 1, 0),
     NORTH(0, 0, -1),
     SOUTH(0, 0, 1),
     WEST(-1, 0, 0),
-    EAST(1, 0, 0);
+    EAST(1, 0, 0),
+    DOWN(0, -1, 0),
+    UP(0, 1, 0);
 
     public final Vector3 pos;
 

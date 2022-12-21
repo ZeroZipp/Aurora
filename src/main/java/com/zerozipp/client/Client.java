@@ -67,9 +67,9 @@ public class Client {
         mods.onSettings();
     }
 
-    public void onOverlay() {
+    public void onOverlay(float ticks) {
         Display.pushScreen();
-        mods.onOverlay();
+        mods.onOverlay(ticks);
         Display.popScreen();
     }
 

@@ -53,6 +53,7 @@ public class Fields extends HashMap<String, String> {
         put("keyPressTime", "j");
         put("leftClickCounter", "ai");
         put("loadedEntityList", "e");
+        put("loadedTileEntityList", "g");
         put("controller", "c");
         put("armMain", "a");
         put("armOffhand", "b");
@@ -76,5 +77,31 @@ public class Fields extends HashMap<String, String> {
         put("currentItem", "d");
         put("displayWidth", "d");
         put("displayHeight", "e");
+        put("inventorySlots", "h");
+        put("cInventorySlots", "c");
+        put("quickMove", "b");
+        put("windowId", "d");
+        put("slotNumber", "e");
+        put("inventoryContainer", "bx");
+        put("itemsDiamondHelmet", "af");
+        put("itemsIronHelmet", "ab");
+        put("itemsChainmailHelmet", "X");
+        put("itemsGoldenHelmet", "aj");
+        put("itemsLeatherHelmet", "T");
+        put("itemsDiamondChestplate", "ag");
+        put("itemsIronChestplate", "ac");
+        put("itemsChainmailChestplate", "Y");
+        put("itemsGoldenChestplate", "ak");
+        put("itemsLeatherChestplate", "U");
+        put("itemsDiamondLeggings", "ah");
+        put("itemsIronLeggings", "ad");
+        put("itemsChainmailLeggings", "Z");
+        put("itemsGoldenLeggings", "al");
+        put("itemsLeatherLeggings", "V");
+        put("itemsDiamondBoots", "ai");
+        put("itemsIronBoots", "ae");
+        put("itemsChainmailBoots", "aa");
+        put("itemsGoldenBoots", "am");
+        put("itemsLeatherBoots", "W");
     }
 }

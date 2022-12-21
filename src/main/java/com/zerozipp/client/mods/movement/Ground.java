@@ -1,4 +1,4 @@
-package com.zerozipp.client.mods.game;
+package com.zerozipp.client.mods.movement;
 
 import com.zerozipp.client.utils.base.Module;
 import com.zerozipp.client.utils.base.Packet;
